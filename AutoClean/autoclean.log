@@ -1,35 +1,36 @@
-11-03-2022 18:56:16.01 - INFO - Started validation of input parameters...
-11-03-2022 18:56:16.02 - INFO - Completed validation of input parameters
-11-03-2022 18:56:16.02 - INFO - Started handling of missing values (numerical)... Method: "KNN"
-11-03-2022 18:56:16.02 - INFO - Found a total of 101 missing value(s)
-11-03-2022 18:56:16.03 - DEBUG - KNN imputation of 16 value(s) succeeded for feature "displacement"
-11-03-2022 18:56:16.03 - DEBUG - KNN imputation of 25 value(s) succeeded for feature "acceleration"
-11-03-2022 18:56:16.04 - INFO - Completed handling of missing values (numerical)
-11-03-2022 18:56:16.04 - INFO - Started handling of missing values (categorical)... Method: "MODE"
-11-03-2022 18:56:16.04 - INFO - Found a total of 60 missing value(s)
-11-03-2022 18:56:16.04 - DEBUG - MODE imputation of 12 value(s) succeeded for feature "horsepower"
-11-03-2022 18:56:16.04 - DEBUG - MODE imputation of 20 value(s) succeeded for feature "mpg"
-11-03-2022 18:56:16.04 - DEBUG - MODE imputation of 28 value(s) succeeded for feature "name"
-11-03-2022 18:56:16.05 - INFO - Completed handling of missing values (categorical)
-11-03-2022 18:56:16.05 - INFO - Started handling of outliers... Method: "WINZ"
-11-03-2022 18:56:16.06 - DEBUG - Outlier WINZ imputation of 15 value(s) succeeded for feature "acceleration"
-11-03-2022 18:56:16.06 - INFO - Completed handling of outliers
-11-03-2022 18:56:16.06 - INFO - Started conversion of DATETIME features... Granularity: s
-11-03-2022 18:56:16.06 - DEBUG - Conversion to DATETIME failed for "horsepower"
-11-03-2022 18:56:16.06 - DEBUG - Conversion to DATETIME failed for "mpg"
-11-03-2022 18:56:16.07 - DEBUG - Conversion to DATETIME failed for "name"
-11-03-2022 18:56:16.07 - INFO - Completed conversion of DATETIME features
-11-03-2022 18:56:16.07 - INFO - Started encoding categorical features... Method: "AUTO"
-11-03-2022 18:56:16.07 - DEBUG - Encoding skipped for feature "horsepower"
-11-03-2022 18:56:16.07 - DEBUG - Encoding skipped for feature "mpg"
-11-03-2022 18:56:16.07 - DEBUG - Encoding skipped for feature "name"
-11-03-2022 18:56:16.07 - INFO - Completed encoding of categorical features
-11-03-2022 18:56:16.07 - INFO - Started feature type conversion...
-11-03-2022 18:56:16.07 - DEBUG - Conversion to type INT succeeded for feature "cylinders"
-11-03-2022 18:56:16.08 - DEBUG - Conversion to type FLOAT succeeded for feature "displacement"
-11-03-2022 18:56:16.08 - DEBUG - Conversion to type INT succeeded for feature "weight"
-11-03-2022 18:56:16.08 - DEBUG - Conversion to type FLOAT succeeded for feature "acceleration"
-11-03-2022 18:56:16.08 - DEBUG - Conversion to type INT succeeded for feature "model.year"
-11-03-2022 18:56:16.08 - DEBUG - Conversion to type INT succeeded for feature "origin"
-11-03-2022 18:56:16.08 - INFO - Completed feature type conversion for 6 feature(s)
-11-03-2022 18:56:16.08 - INFO - AutoClean completed successfully
+12-03-2022 17:16:54.90 - INFO - Started validation of input parameters...
+12-03-2022 17:16:54.90 - INFO - Completed validation of input parameters
+12-03-2022 17:16:54.90 - INFO - Started handling of missing values (numerical)... Method: "KNN"
+12-03-2022 17:16:54.90 - INFO - Found a total of 15 missing value(s)
+12-03-2022 17:16:54.92 - DEBUG - KNN imputation of 4 value(s) succeeded for feature "int"
+12-03-2022 17:16:54.92 - DEBUG - KNN imputation of 2 value(s) succeeded for feature "float"
+12-03-2022 17:16:54.93 - DEBUG - KNN imputation of 2 value(s) succeeded for feature "str_oh"
+12-03-2022 17:16:54.93 - DEBUG - KNN imputation of 2 value(s) succeeded for feature "str_lab"
+12-03-2022 17:16:54.93 - DEBUG - KNN imputation of 5 value(s) succeeded for feature "datetime"
+12-03-2022 17:16:54.93 - INFO - Completed handling of missing values
+12-03-2022 17:16:54.93 - INFO - Started handling of outliers... Method: "WINZ"
+12-03-2022 17:16:54.94 - DEBUG - Outlier imputation of WINZ value(s) succeeded for feature "2"
+12-03-2022 17:16:54.94 - DEBUG - Outlier imputation of WINZ value(s) succeeded for feature "2"
+12-03-2022 17:16:54.94 - INFO - Completed handling of outliers
+12-03-2022 17:16:54.94 - INFO - Started conversion of DATETIME features... Granularity: s
+12-03-2022 17:16:54.95 - DEBUG - Conversion to DATETIME succeeded for feature "datetime"
+12-03-2022 17:16:54.96 - DEBUG - Conversion to DATETIME failed for "str_oh"
+12-03-2022 17:16:54.96 - DEBUG - Conversion to DATETIME failed for "str_lab"
+12-03-2022 17:16:54.96 - INFO - Completed conversion of DATETIME features
+12-03-2022 17:16:54.96 - INFO - Started encoding categorical features... Method: "AUTO"
+12-03-2022 17:16:54.97 - DEBUG - Encoding to ONEHOT succeeded for feature "str_oh"
+12-03-2022 17:16:54.97 - DEBUG - Skipped encoding for DATETIME feature "datetime"
+12-03-2022 17:16:54.97 - DEBUG - Encoding to LABEL succeeded for feature "str_lab"
+12-03-2022 17:16:54.97 - INFO - Completed encoding of categorical features
+12-03-2022 17:16:54.97 - INFO - Started feature type conversion...
+12-03-2022 17:16:54.97 - DEBUG - Conversion to type INT succeeded for feature "int"
+12-03-2022 17:16:54.97 - DEBUG - Conversion to type FLOAT succeeded for feature "float"
+12-03-2022 17:16:54.98 - DEBUG - Conversion to type INT succeeded for feature "str_lab"
+12-03-2022 17:16:54.98 - DEBUG - Conversion to type INT succeeded for feature "Day"
+12-03-2022 17:16:54.98 - DEBUG - Conversion to type INT succeeded for feature "Month"
+12-03-2022 17:16:54.98 - DEBUG - Conversion to type INT succeeded for feature "Year"
+12-03-2022 17:16:54.98 - DEBUG - Conversion to type INT succeeded for feature "str_oh_a"
+12-03-2022 17:16:54.98 - DEBUG - Conversion to type INT succeeded for feature "str_oh_b"
+12-03-2022 17:16:54.98 - DEBUG - Conversion to type INT succeeded for feature "str_oh_c"
+12-03-2022 17:16:54.98 - INFO - Completed feature type conversion for 9 feature(s)
+12-03-2022 17:16:54.98 - INFO - AutoClean completed successfully

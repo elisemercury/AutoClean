@@ -6,15 +6,12 @@ from loguru import logger
 
 class AutoClean:
 
-    def __init__(self, input_data, missings_num='knn', missings_categ='mode', encode_categ=['auto'], extract_datetime='s', outliers='winz', outlier_param=1.5, logfile=True, verbose=False):  
+    def __init__(self, input_data, missings='knn', encode_categ=['auto'], extract_datetime='s', outliers='winz', outlier_param=1.5, logfile=True, verbose=False):  
         '''
         input_data (dataframe)..........Pandas dataframe
-        missings_num (str)..............define how NUMERIC missing values are handled
+        missings (str)..................define how missing values are handled
                                         'knn' = uses K-NN algorithm for missing value imputation
                                         'mean','median' or 'mode' = uses mean/median/mode imputatiom
-                                        'delete' = deletes observations with missing values
-        missings_categ (str)............define how CATEGORICAL missing values are handled
-                                        'mode' = mode imputatiom
                                         'delete' = deletes observations with missing values
         encode_categ (list).............encode categorical features, takes a list as input
                                         ['onehot'] = one-hot-encode all categorical features
@@ -40,8 +37,7 @@ class AutoClean:
         
         output_data = input_data.copy()
     
-        self.missings_num = missings_num
-        self.missings_categ = missings_categ
+        self.missings = missings
         self.outliers = outliers
         self.encode_categ = encode_categ
         self.outlier_param = outlier_param
@@ -69,10 +65,8 @@ class AutoClean:
         
         if type(df) != pd.core.frame.DataFrame:
             raise ValueError('Invalid value for "df" parameter.')
-        if self.missings_num != False and str(self.missings_num) not in ['knn', 'mean', 'median', 'mode', 'delete']:
+        if self.missings != False and str(self.missings) not in ['knn', 'mean', 'median', 'mode', 'delete']:
             raise ValueError('Invalid value for "missings_num" parameter.')
-        if self.missings_categ != False and str(self.missings_categ) not in ['mode', 'delete']:
-            raise ValueError('Invalid value for "missings_categ" parameter.')
         if self.outliers != False and str(self.outliers) not in ['winz', 'delete']:
             raise ValueError('Invalid value for "outliers" parameter.')
         if len(self.encode_categ) > 2 and not isinstance(self.encode_categ, list) and self.encode_categ[0] != False and self.encode_categ[0] not in ['auto', 'onehot', 'label']:
@@ -91,14 +85,8 @@ class AutoClean:
             
     def _clean_data(self, df):
         # function for starting the autoclean process
-        if self.missings_categ != "delete" and self.missings_num == "delete":
-            df = Modules._check_missings_categ(self, df)
-            df = Modules._check_missings_num(self, df)
-        else:
-            df = Modules._check_missings_num(self, df)
-            df = Modules._check_missings_categ(self, df)
-        
-        df = Modules._check_outliers(self, df)
+        df = Modules._handle_missings(self, df)
+        df = Modules._handle_outliers(self, df)
         
         df = Modules._convert_datetime(self, df) 
         df = Modules._encode_categ(self, df)
