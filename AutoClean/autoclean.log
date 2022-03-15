@@ -1,36 +1,79 @@
-12-03-2022 17:16:54.90 - INFO - Started validation of input parameters...
-12-03-2022 17:16:54.90 - INFO - Completed validation of input parameters
-12-03-2022 17:16:54.90 - INFO - Started handling of missing values (numerical)... Method: "KNN"
-12-03-2022 17:16:54.90 - INFO - Found a total of 15 missing value(s)
-12-03-2022 17:16:54.92 - DEBUG - KNN imputation of 4 value(s) succeeded for feature "int"
-12-03-2022 17:16:54.92 - DEBUG - KNN imputation of 2 value(s) succeeded for feature "float"
-12-03-2022 17:16:54.93 - DEBUG - KNN imputation of 2 value(s) succeeded for feature "str_oh"
-12-03-2022 17:16:54.93 - DEBUG - KNN imputation of 2 value(s) succeeded for feature "str_lab"
-12-03-2022 17:16:54.93 - DEBUG - KNN imputation of 5 value(s) succeeded for feature "datetime"
-12-03-2022 17:16:54.93 - INFO - Completed handling of missing values
-12-03-2022 17:16:54.93 - INFO - Started handling of outliers... Method: "WINZ"
-12-03-2022 17:16:54.94 - DEBUG - Outlier imputation of WINZ value(s) succeeded for feature "2"
-12-03-2022 17:16:54.94 - DEBUG - Outlier imputation of WINZ value(s) succeeded for feature "2"
-12-03-2022 17:16:54.94 - INFO - Completed handling of outliers
-12-03-2022 17:16:54.94 - INFO - Started conversion of DATETIME features... Granularity: s
-12-03-2022 17:16:54.95 - DEBUG - Conversion to DATETIME succeeded for feature "datetime"
-12-03-2022 17:16:54.96 - DEBUG - Conversion to DATETIME failed for "str_oh"
-12-03-2022 17:16:54.96 - DEBUG - Conversion to DATETIME failed for "str_lab"
-12-03-2022 17:16:54.96 - INFO - Completed conversion of DATETIME features
-12-03-2022 17:16:54.96 - INFO - Started encoding categorical features... Method: "AUTO"
-12-03-2022 17:16:54.97 - DEBUG - Encoding to ONEHOT succeeded for feature "str_oh"
-12-03-2022 17:16:54.97 - DEBUG - Skipped encoding for DATETIME feature "datetime"
-12-03-2022 17:16:54.97 - DEBUG - Encoding to LABEL succeeded for feature "str_lab"
-12-03-2022 17:16:54.97 - INFO - Completed encoding of categorical features
-12-03-2022 17:16:54.97 - INFO - Started feature type conversion...
-12-03-2022 17:16:54.97 - DEBUG - Conversion to type INT succeeded for feature "int"
-12-03-2022 17:16:54.97 - DEBUG - Conversion to type FLOAT succeeded for feature "float"
-12-03-2022 17:16:54.98 - DEBUG - Conversion to type INT succeeded for feature "str_lab"
-12-03-2022 17:16:54.98 - DEBUG - Conversion to type INT succeeded for feature "Day"
-12-03-2022 17:16:54.98 - DEBUG - Conversion to type INT succeeded for feature "Month"
-12-03-2022 17:16:54.98 - DEBUG - Conversion to type INT succeeded for feature "Year"
-12-03-2022 17:16:54.98 - DEBUG - Conversion to type INT succeeded for feature "str_oh_a"
-12-03-2022 17:16:54.98 - DEBUG - Conversion to type INT succeeded for feature "str_oh_b"
-12-03-2022 17:16:54.98 - DEBUG - Conversion to type INT succeeded for feature "str_oh_c"
-12-03-2022 17:16:54.98 - INFO - Completed feature type conversion for 9 feature(s)
-12-03-2022 17:16:54.98 - INFO - AutoClean completed successfully
+15-03-2022 22:22:46.77 - INFO - Started validation of input parameters...
+15-03-2022 22:22:46.77 - INFO - Completed validation of input parameters
+15-03-2022 22:22:46.77 - INFO - Started handling of missing values...
+15-03-2022 22:22:46.78 - INFO - Found a total of 2954 missing value(s)
+15-03-2022 22:22:46.78 - INFO - Started handling of NUMERICAL missing values... Method: "AUTO"
+15-03-2022 22:22:46.81 - DEBUG - LINREG imputation of 155 value(s) succeeded for feature "instant"
+15-03-2022 22:22:46.84 - DEBUG - LINREG imputation of 161 value(s) succeeded for feature "season"
+15-03-2022 22:22:46.89 - DEBUG - LINREG imputation of 130 value(s) succeeded for feature "yr"
+15-03-2022 22:22:46.93 - DEBUG - LINREG imputation of 146 value(s) succeeded for feature "mnth"
+15-03-2022 22:22:46.99 - DEBUG - LINREG imputation of 152 value(s) succeeded for feature "hr"
+15-03-2022 22:22:47.06 - DEBUG - LINREG imputation of 166 value(s) succeeded for feature "holiday"
+15-03-2022 22:22:47.14 - DEBUG - LINREG imputation of 139 value(s) succeeded for feature "weekday"
+15-03-2022 22:22:47.23 - DEBUG - LINREG imputation of 130 value(s) succeeded for feature "workingday"
+15-03-2022 22:22:47.29 - DEBUG - LINREG imputation of 139 value(s) succeeded for feature "weathersit"
+15-03-2022 22:22:47.35 - DEBUG - LINREG imputation of 150 value(s) succeeded for feature "temp"
+15-03-2022 22:22:47.43 - DEBUG - LINREG imputation of 163 value(s) succeeded for feature "atemp"
+15-03-2022 22:22:47.55 - DEBUG - LINREG imputation of 160 value(s) succeeded for feature "hum"
+15-03-2022 22:22:47.67 - DEBUG - LINREG imputation of 126 value(s) succeeded for feature "windspeed"
+15-03-2022 22:22:47.81 - DEBUG - LINREG imputation of 150 value(s) succeeded for feature "casual"
+15-03-2022 22:22:47.96 - DEBUG - LINREG imputation of 132 value(s) succeeded for feature "registered"
+15-03-2022 22:22:48.04 - DEBUG - LINREG imputation of 139 value(s) succeeded for feature "cnt"
+15-03-2022 22:22:48.07 - DEBUG - KNN imputation of 24 value(s) succeeded for feature "instant"
+15-03-2022 22:22:48.10 - DEBUG - KNN imputation of 29 value(s) succeeded for feature "season"
+15-03-2022 22:22:48.12 - DEBUG - KNN imputation of 23 value(s) succeeded for feature "yr"
+15-03-2022 22:22:48.15 - DEBUG - KNN imputation of 30 value(s) succeeded for feature "mnth"
+15-03-2022 22:22:48.18 - DEBUG - KNN imputation of 29 value(s) succeeded for feature "hr"
+15-03-2022 22:22:48.21 - DEBUG - KNN imputation of 36 value(s) succeeded for feature "holiday"
+15-03-2022 22:22:48.24 - DEBUG - KNN imputation of 23 value(s) succeeded for feature "weekday"
+15-03-2022 22:22:48.26 - DEBUG - KNN imputation of 24 value(s) succeeded for feature "workingday"
+15-03-2022 22:22:48.28 - DEBUG - KNN imputation of 21 value(s) succeeded for feature "weathersit"
+15-03-2022 22:22:48.30 - DEBUG - KNN imputation of 34 value(s) succeeded for feature "temp"
+15-03-2022 22:22:48.33 - DEBUG - KNN imputation of 26 value(s) succeeded for feature "atemp"
+15-03-2022 22:22:48.35 - DEBUG - KNN imputation of 31 value(s) succeeded for feature "hum"
+15-03-2022 22:22:48.37 - DEBUG - KNN imputation of 25 value(s) succeeded for feature "windspeed"
+15-03-2022 22:22:48.40 - DEBUG - KNN imputation of 31 value(s) succeeded for feature "casual"
+15-03-2022 22:22:48.42 - DEBUG - KNN imputation of 28 value(s) succeeded for feature "registered"
+15-03-2022 22:22:48.45 - DEBUG - KNN imputation of 31 value(s) succeeded for feature "cnt"
+15-03-2022 22:22:48.45 - INFO - Started handling of CATEGORICAL missing values... Method: "AUTO"
+15-03-2022 22:23:51.57 - DEBUG - LOGREG imputation of 171 value(s) succeeded for feature "dteday"
+15-03-2022 22:23:51.58 - INFO - Completed handling of missing values in 64.802302 seconds
+15-03-2022 22:23:51.58 - INFO - Started handling of outliers... Method: "WINZ"
+15-03-2022 22:23:51.60 - DEBUG - Outlier imputation of 2 value(s) succeeded for feature "instant"
+15-03-2022 22:23:52.00 - DEBUG - Outlier imputation of 496 value(s) succeeded for feature "holiday"
+15-03-2022 22:23:52.04 - DEBUG - Outlier imputation of 3 value(s) succeeded for feature "weathersit"
+15-03-2022 22:23:52.05 - DEBUG - Outlier imputation of 3 value(s) succeeded for feature "temp"
+15-03-2022 22:23:52.09 - DEBUG - Outlier imputation of 21 value(s) succeeded for feature "hum"
+15-03-2022 22:23:52.47 - DEBUG - Outlier imputation of 340 value(s) succeeded for feature "windspeed"
+15-03-2022 22:23:53.15 - DEBUG - Outlier imputation of 1191 value(s) succeeded for feature "casual"
+15-03-2022 22:23:53.53 - DEBUG - Outlier imputation of 680 value(s) succeeded for feature "registered"
+15-03-2022 22:23:53.83 - DEBUG - Outlier imputation of 523 value(s) succeeded for feature "cnt"
+15-03-2022 22:23:53.83 - INFO - Completed handling of outliers in 2.253602 seconds
+15-03-2022 22:23:53.83 - INFO - Started conversion of DATETIME features... Granularity: s
+15-03-2022 22:23:53.96 - DEBUG - Conversion to DATETIME succeeded for feature "dteday"
+15-03-2022 22:23:53.97 - INFO - Completed conversion of DATETIME features in 0.1366 seconds
+15-03-2022 22:23:53.97 - INFO - Started encoding categorical features... Method: "AUTO"
+15-03-2022 22:23:53.98 - DEBUG - Skipped encoding for DATETIME feature "dteday"
+15-03-2022 22:23:53.98 - INFO - Completed encoding of categorical features in 0.00916 seconds
+15-03-2022 22:23:53.98 - INFO - Started feature type conversion...
+15-03-2022 22:23:53.98 - DEBUG - Conversion to type INT succeeded for feature "instant"
+15-03-2022 22:23:53.98 - DEBUG - Conversion to type INT succeeded for feature "season"
+15-03-2022 22:23:53.98 - DEBUG - Conversion to type INT succeeded for feature "yr"
+15-03-2022 22:23:53.98 - DEBUG - Conversion to type INT succeeded for feature "mnth"
+15-03-2022 22:23:53.98 - DEBUG - Conversion to type INT succeeded for feature "hr"
+15-03-2022 22:23:53.98 - DEBUG - Conversion to type INT succeeded for feature "holiday"
+15-03-2022 22:23:53.98 - DEBUG - Conversion to type INT succeeded for feature "weekday"
+15-03-2022 22:23:53.98 - DEBUG - Conversion to type INT succeeded for feature "workingday"
+15-03-2022 22:23:53.99 - DEBUG - Conversion to type INT succeeded for feature "weathersit"
+15-03-2022 22:23:54.00 - DEBUG - Conversion to type FLOAT succeeded for feature "temp"
+15-03-2022 22:23:54.02 - DEBUG - Conversion to type FLOAT succeeded for feature "atemp"
+15-03-2022 22:23:54.03 - DEBUG - Conversion to type FLOAT succeeded for feature "hum"
+15-03-2022 22:23:54.04 - DEBUG - Conversion to type FLOAT succeeded for feature "windspeed"
+15-03-2022 22:23:54.04 - DEBUG - Conversion to type INT succeeded for feature "casual"
+15-03-2022 22:23:54.04 - DEBUG - Conversion to type INT succeeded for feature "registered"
+15-03-2022 22:23:54.05 - DEBUG - Conversion to type INT succeeded for feature "cnt"
+15-03-2022 22:23:54.05 - DEBUG - Conversion to type INT succeeded for feature "Day"
+15-03-2022 22:23:54.05 - DEBUG - Conversion to type INT succeeded for feature "Month"
+15-03-2022 22:23:54.05 - DEBUG - Conversion to type INT succeeded for feature "Year"
+15-03-2022 22:23:54.05 - INFO - Completed feature type conversion for 19 feature(s) in 0.071323 seconds
+15-03-2022 22:23:54.05 - INFO - AutoClean completed successfully
