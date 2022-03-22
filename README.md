@@ -2,25 +2,23 @@
 
 **Python Package for Automated Dataset Preprocessing & Cleaning**
 
-:white_check_mark: The Duplicate Image Finder (difPy) Python package **automates** this task for you!
-
 ```python
-pip install difPy
+pip install AutoClean
 ```
 
-Read more on how the algorithm of difPy works in my Medium article [Automated Data Cleaning with Python](link).
+:thought_balloon: Read more on how the algorithm of AutoClean works in my Medium article [Automated Data Cleaning with Python](link).
 
 ## Description
 It is commonly known among Data Scientists that data cleaning and preprocessing make up a major part of a data science project. And, in all honesty, on average it is not the most exciting part of the project.
 
-:white_check_mark: AutoClean helps you automate major parts of these tasks and performs preprocessing in an automated manner.
+:white_check_mark: AutoClean helps you **save time** in major parts of these tasks and performs **preprocessing** in an **automated manner**!
 
 AutoClean supports:
 
-:point_right: various imputation methods for missing values  
-:point_right: handling of outliers  
-:point_right: encoding of categorical data (OneHot, Label)  
-:point_right: extraction of datatime values  
+:point_right: Various imputation methods for **missing values**  
+:point_right: Handling of **outliers**  
+:point_right: **Encoding** of categorical data (OneHot, Label)  
+:point_right: **Extraction** of datatime values  
 :point_right: and more!
 
 As an example, the following sample dataset will be passed through the AutoClean pipeline:
