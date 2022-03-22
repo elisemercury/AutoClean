@@ -17,14 +17,10 @@ It is commonly known among Data Scientists that data cleaning and preprocessing 
 
 AutoClean supports:
 
-:point_right: various imputation methods for missing values
-
-:point_right: handling of outliers
-
-:point_right: encoding of categorical data (OneHot, Label)
-
-:point_right: extraction of datatime values
- 
+:point_right: various imputation methods for missing values  
+:point_right: handling of outliers  
+:point_right: encoding of categorical data (OneHot, Label)  
+:point_right: extraction of datatime values  
 :point_right: and more!
 
 As an example, the following sample dataset will be passed through the AutoClean pipeline:
