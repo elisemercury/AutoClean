@@ -270,55 +270,61 @@ class MissingValues:
 class Outliers:
 
     def handle(self, df):
-        #defines obersvations as outliers if they are outside of range [Q1-1.5*IQR ; Q3+1.5*IQR] whereas IQR is the interquartile range.
+        #defines observations as outliers if they are outside of range [Q1-1.5*IQR ; Q3+1.5*IQR] whereas IQR is the interquartile range.
         if self.outliers:
             logger.info('Started handling of outliers... Method: "{}"', self.outliers.upper())
-            start = timer()
-            cols = df.select_dtypes(include=np.number).columns    
+            start = timer()   
 
-            for feature in cols:           
-                counter = 0
-                # compute outlier bounds
-                lower_bound, upper_bound = Outliers._compute_bounds(self, df, feature)     
+            if self.outliers == 'winz':  
+                df = Outliers._winsorization(self, df)
 
-                # replace outliers by bounds
-                if self.outliers == 'winz':     
-                    for row_index, row_val in enumerate(df[feature]):
-                        if row_val < lower_bound or row_val > upper_bound:
-                            if row_val < lower_bound:
-                                if (df[feature].fillna(-9999) % 1  == 0).all():
-                                        df.loc[row_index, feature] = lower_bound
-                                        df[feature] = df[feature].astype(int) 
-                                else:    
-                                    df.loc[row_index, feature] = lower_bound
-                                counter += 1
-                            else:
-                                if (df[feature].fillna(-9999) % 1  == 0).all():
-                                    df.loc[row_index, feature] = upper_bound
-                                    df[feature] = df[feature].astype(int) 
-                                else:
-                                    df.loc[row_index, feature] = upper_bound
-                                counter += 1
-                    if counter != 0:
-                        logger.debug('Outlier imputation of {} value(s) succeeded for feature "{}"', counter, feature)
-
-                # delete observations containing outliers            
-                elif self.outliers == 'delete':
-                    for row_index, row_val in enumerate(df[feature]):
-                        if row_val < lower_bound or row_val > upper_bound:
-                            df = df.drop(row_index)
-                            counter +=1
-                    df = df.reset_index(drop=True)
-                    if counter != 0:
-                        logger.debug('Deletion of {} outliers succeeded for feature "{}"', counter, feature)
-                
-                # empty for future use
-                else:
-                    pass
+            elif self.ourliers == 'delete':
+                df = Outliers._delete(self, df)
             
             end = timer()
             logger.info('Completed handling of outliers in {} seconds', round(end-start, 6))
         return df     
+
+    def _winsorization(self, df):
+        cols_num = df.select_dtypes(include=np.number).columns    
+        for feature in cols_num:           
+            counter = 0
+            # compute outlier bounds
+            lower_bound, upper_bound = Outliers._compute_bounds(self, df, feature)    
+            for row_index, row_val in enumerate(df[feature]):
+                if row_val < lower_bound or row_val > upper_bound:
+                    if row_val < lower_bound:
+                        if (df[feature].fillna(-9999) % 1  == 0).all():
+                                df.loc[row_index, feature] = lower_bound
+                                df[feature] = df[feature].astype(int) 
+                        else:    
+                            df.loc[row_index, feature] = lower_bound
+                        counter += 1
+                    else:
+                        if (df[feature].fillna(-9999) % 1  == 0).all():
+                            df.loc[row_index, feature] = upper_bound
+                            df[feature] = df[feature].astype(int) 
+                        else:
+                            df.loc[row_index, feature] = upper_bound
+                        counter += 1
+            if counter != 0:
+                logger.debug('Outlier imputation of {} value(s) succeeded for feature "{}"', counter, feature)        
+        return df
+
+    def _delete(self, df):
+        cols_num = df.select_dtypes(include=np.number).columns    
+        for feature in cols_num:
+            counter = 0
+            lower_bound, upper_bound = Outliers._compute_bounds(self, df, feature)    
+            # delete observations containing outliers            
+            for row_index, row_val in enumerate(df[feature]):
+                if row_val < lower_bound or row_val > upper_bound:
+                    df = df.drop(row_index)
+                    counter +=1
+            df = df.reset_index(drop=True)
+            if counter != 0:
+                logger.debug('Deletion of {} outliers succeeded for feature "{}"', counter, feature)
+        return df
 
     def _compute_bounds(self, df, col):
         colSorted = sorted(df[col])
@@ -429,91 +435,50 @@ class EncodeCateg:
 
     def handle(self, df):
         if self.encode_categ[0]:
-            cols = set(df.columns) ^ set(df.select_dtypes(include=np.number).columns) 
-            
-            # automated checking for optimal encoding
-            if self.encode_categ[0] == 'auto':
-                logger.info('Started encoding categorical features... Method: "AUTO"')
-                start = timer()
-                for feature in cols:
-                    try:
-                        # skip encoding of datetime features
-                        pd.to_datetime(df[feature])
-                        logger.debug('Skipped encoding for DATETIME feature "{}"', feature)
-                    except:
-                        # ONEHOT encode if not more than 10 unique values to encode
-                        if df[feature].nunique() <=10:
-                            # skip encoding if encoding leads more features than observations
-                            #if int(df.shape[0]) < (int(df[cols[col_num]].nunique()) + int(df.shape[0])):
-                            #    logger.debug('Encoding to {} skipped for feature "{}"', self.encode_categ[0].upper(), cols[col_num])
-                            #else:
-                            df = EncodeCateg._to_onehot(self, df, feature)
-                            logger.debug('Encoding to ONEHOT succeeded for feature "{}"', feature)
-
-                        # LABEL encode if not more than 20 unique values to encode
-                        elif df[feature].nunique() <=20:
-                            df = EncodeCateg._to_label(self, df, feature)
-                            logger.debug('Encoding to LABEL succeeded for feature "{}"', feature)
-
-                        # skip encoding if more than 20 unique values to encode
-                        else:
-                            logger.debug('Encoding skipped for feature "{}"', feature)        
-                
-            # check if only specific columns should be encoded
-            elif len(self.encode_categ) == 2:
-                logger.info('Started encoding categorical features... Method: "{}" on features "{}"', self.encode_categ[0], self.encode_categ[1])
-                start = timer()
-                for i in self.encode_categ[1]:
-                    # check if given columns are column names
-                    if i in cols:
-                        try:
-                            if self.encode_categ[0] == 'onehot':
-                                df = EncodeCateg._to_onehot(self, df, i)
-                                logger.debug('Encoding to {} succeeded for feature "{}"', self.encode_categ[0].upper(), i)
-                            elif self.encode_categ[0] == 'label':
-                                df = EncodeCateg._to_label(self, df, i)
-                                logger.debug('Encoding to {} succeeded for feature "{}"', self.encode_categ[0].upper(), i)
-                            else:
-                                pass
-                        except:
-                            logger.warning('Encoding to {} failed for feature "{}"', self.encode_categ[0].upper(), i)
-
-                    # check given columns are column indexes
-                    else:
-                        try:
-                            if self.encode_categ[0] == 'onehot':
-                                df = self._to_onehot(df, cols[i])
-                                logger.debug('Encoding to {} succeeded for feature "{}"', self.encode_categ[0].upper(), cols[i])
-                            elif self.encode_categ[0] == 'label':
-                                df = self._to_label(df, cols[i])
-                                logger.debug('Encoding to {} succeeded for feature "{}"', self.encode_categ[0].upper(), cols[i])
-                            else:
-                                pass
-                        except:
-                            logger.warning('Encoding to {} failed for feature "{}"', self.encode_categ[0].upper(), i)
-
-            # encode all columns
+            # select non numeric features
+            cols_categ = set(df.columns) ^ set(df.select_dtypes(include=np.number).columns) 
+            # check if all columns should be encoded
+            if len(self.encode_categ) == 1:
+                target_cols = cols_categ
             else:
-                logger.info('Started encoding categorical features... Method: "{}"', self.encode_categ[0], self.encode_categ[1])
-                start = timer()
-                for feature in cols:
+                target_cols = self.encode_categ[1]
+            logger.info('Started encoding categorical features... Method: "AUTO"')
+            start = timer()
+            for feature in target_cols:
+                if feature in cols_categ:
+                    # columns are column names
+                    feature = feature
+                else:
+                    # columns are indexes
+                    feature = df.columns[feature]
+                    print(feature)
+                try:
+                    # skip encoding of datetime features
+                    pd.to_datetime(df[feature])
+                    logger.debug('Skipped encoding for DATETIME feature "{}"', feature)
+                except:
                     try:
-                        # skip encoding of datetime features
-                        pd.to_datetime(df[feature])
-                        logger.debug('Skipped encoding for DATETIME feature "{}"', feature)
-                    except:
-                        try:
-                            if self.encode_categ[0] == 'onehot':
-                                df = self._to_onehot(df, feature)
-                                logger.debug('Encoding to {} succeeded for feature "{}"', self.encode_categ[0].upper(), feature)
-                            elif self.encode_categ[0] == 'label':
-                                df = self._to_label(df, feature)
-                                logger.debug('Encoding to {} succeeded for feature "{}"', self.encode_categ[0].upper(), feature)
+                        if self.encode_categ[0] == 'auto':
+                            # ONEHOT encode if not more than 10 unique values to encode
+                            if df[feature].nunique() <=10:
+                                df = EncodeCateg._to_onehot(self, df, feature)
+                                logger.debug('Encoding to ONEHOT succeeded for feature "{}"', feature)
+                            # LABEL encode if not more than 20 unique values to encode
+                            elif df[feature].nunique() <=20:
+                                df = EncodeCateg._to_label(self, df, feature)
+                                logger.debug('Encoding to LABEL succeeded for feature "{}"', feature)
+                            # skip encoding if more than 20 unique values to encode
                             else:
-                                pass                              
-                        except:
-                            logger.warning('Encoding to {} failed for feature "{}"', self.encode_categ[0].upper(), feature)
+                                logger.debug('Encoding skipped for feature "{}"', feature)   
 
+                        elif self.encode_categ[0] == 'onehot':
+                            df = EncodeCateg._to_onehot(df, feature)
+                            logger.debug('Encoding to {} succeeded for feature "{}"', self.encode_categ[0].upper(), feature)
+                        elif self.encode_categ[0] == 'label':
+                            df = EncodeCateg._to_label(df, feature)
+                            logger.debug('Encoding to {} succeeded for feature "{}"', self.encode_categ[0].upper(), feature)      
+                    except:
+                        logger.warning('Encoding to {} failed for feature "{}"', self.encode_categ[0].upper(), feature)    
             end = timer()
             logger.info('Completed encoding of categorical features in {} seconds', round(end-start, 6))
         return df

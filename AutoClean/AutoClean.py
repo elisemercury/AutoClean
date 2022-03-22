@@ -23,7 +23,7 @@ class AutoClean:
         extract_datetime (str)..........define whether DATETIME type features should be extracted into separate features
                                         to define granularity set to 'D'= day, 'M'= month, 'Y'= year, 'h'= hour, 'm'= minute or 's'= second
         outliers (str)..................define how outliers are handled
-                                        'winz' = replaces outliers through winzoring
+                                        'winz' = replaces outliers through winsorization
                                         'delete' = deletes observations containing outliers
                                         oberservations are considered outliers if they are outside the lower and upper bound [Q1-1.5*IQR, Q3+1.5*IQR], where IQR is the interquartile range
                                         to set a custom multiplier use the 'outlier_param' parameter
@@ -95,12 +95,19 @@ class AutoClean:
     def _clean_data(self, df, input_data):
         # function for starting the autoclean process
         df = MissingValues.handle(self, df)
+        df1 = df.copy()
+        self.df1 = df
         df = Outliers.handle(self, df)
-        
+        df2 = df.copy()
+        self.df2 = df        
         df = Adjust.convert_datetime(self, df) 
+        df3 = df.copy()
+        self.df3 = df
         df = EncodeCateg.handle(self, df)
-        
+        df4 = df.copy()
+        self.df4 = df        
         df = Adjust.round_values(self, df, input_data)
-
+        df5 = df.copy()
+        self.df5 = df
         logger.info('AutoClean completed successfully')
         return df        
