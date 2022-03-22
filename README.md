@@ -30,5 +30,5 @@ As an example, the following sample dataset will be passed through the AutoClean
  The output of AutoClean looks as following, whereas the various adjustments have been highlighted:
 
  <p align="center">
-  <img src="Misc/sample_data_output.png" width="500" title="Example Output: Duplicate Image Finder">
+  <img src="Misc/sample_data_output.png" width="700" title="Example Output: Duplicate Image Finder">
 </p>
