@@ -7,7 +7,7 @@ with open(os.path.join(base_dir, "README.md")) as f:
     long_description = f.read()
 
 setup(
-  name = 'AutoClean',         
+  name = 'auto-clean',         
   packages = ['AutoClean'],   
   version = 'v0.0.1-alpha',      
   license='MIT',        

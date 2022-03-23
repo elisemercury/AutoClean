@@ -3,7 +3,7 @@
 **Python Package for Automated Dataset Preprocessing & Cleaning**
 
 ```python
-pip install AutoClean
+pip install auto-clean
 ```
 
 :thought_balloon: Read more on how the algorithm of AutoClean works in my Medium article [Automated Data Cleaning with Python](link).
