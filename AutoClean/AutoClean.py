@@ -1,6 +1,6 @@
 import sys
 import pandas as pd
-from Modules import *
+import Modules
 
 from loguru import logger
 
@@ -94,19 +94,19 @@ class AutoClean:
             
     def _clean_data(self, df, input_data):
         # function for starting the autoclean process
-        df = MissingValues.handle(self, df)
+        df = Modules.MissingValues.handle(self, df)
         df1 = df.copy()
         self.df1 = df
-        df = Outliers.handle(self, df)
+        df = Modules.Outliers.handle(self, df)
         df2 = df.copy()
         self.df2 = df        
-        df = Adjust.convert_datetime(self, df) 
+        df = Modules.Adjust.convert_datetime(self, df) 
         df3 = df.copy()
         self.df3 = df
-        df = EncodeCateg.handle(self, df)
+        df = Modules.EncodeCateg.handle(self, df)
         df4 = df.copy()
         self.df4 = df        
-        df = Adjust.round_values(self, df, input_data)
+        df = Modules.Adjust.round_values(self, df, input_data)
         df5 = df.copy()
         self.df5 = df
         logger.info('AutoClean completed successfully')
