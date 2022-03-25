@@ -1,4 +1,4 @@
-from setuptools import setup, Extension
+from setuptools import setup
 import os
 
 base_dir = os.path.dirname(__file__)
@@ -9,7 +9,7 @@ with open(os.path.join(base_dir, "README.md")) as f:
 setup(
   name = 'py-AutoClean',         
   packages = ['AutoClean'],   
-  version = 'v0.0.1-alpha',      
+  version = 'v0.0.6-alpha',      
   license='MIT',        
   description = 'AutoClean - Python Package for Automated Preprocessing & Cleaning of Datasets', 
   long_description=long_description,
@@ -21,7 +21,6 @@ setup(
   keywords = ['automated', 'cleaning', 'preprocessing', "autoclean"],  
   install_requires=[          
           'scikit-learn',
-          'timeit',
           'numpy',
           'pandas',
           'loguru'
