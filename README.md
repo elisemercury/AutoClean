@@ -14,7 +14,7 @@ pip install py-AutoClean
 ## Description
 It is commonly known among Data Scientists that data cleaning and preprocessing make up a major part of a data science project. And, you will probably agree with me that it is not the most exciting part of the project. *Wouldn't it be great if this part could be automated?*
 
-:white_check_mark: AutoClean helps you with exactly that: it performs **preprocessing** and **cleaning** of data in an **automated manner**, so that you can **save time** when working on your next project.
+:white_check_mark: AutoClean helps you exactly with that: it performs **preprocessing** and **cleaning** of data in an **automated manner**, so that you can **save time** when working on your next project.
 
 AutoClean supports:
 
@@ -26,7 +26,7 @@ AutoClean supports:
 
 ## Basic Usage
 
-AutoClean takes a Pandas dataframe as input and has a built in logic of how to *automatically* clean and process your data. You can let your dataset run through the default AutoClean pipeline by using:
+AutoClean takes a Pandas dataframe as input and has a built-in logic of how to *automatically* clean and process your data. You can let your dataset run through the default AutoClean pipeline by using:
 
 ````python
 from AutoClean import AutoClean
