@@ -53,7 +53,7 @@ AutoClean(dataset, missing_num='auto', missing_categ='auto', encode_categ=['auto
 ````
 
 | Parameter | Type | Default Value | Other Values |
-| ------ | ------ | ------ | ------ | 
+| ------ | :---: | :---: | ------ | 
 | missing_num | `str` | `'auto'` | `linreg`, `knn`, `mean`, `median`, `most_frequent`, `delete` |
 | missing_categ | `str` | `'auto'` | `logreg`, `knn`, `most_frequent`, `delete` |
 | missing_categ | `list` | `['auto']` | `['onehot']`, `['label']`; to encode only specific columns add a list of column names or indexes: `['auto', ['col1', 2]]` |
