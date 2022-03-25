@@ -1,21 +1,20 @@
-# AutoClean
+# AutoClean - Automated Data Preprocessing & Cleaning
 
 ![PyPI](https://img.shields.io/pypi/v/py-AutoClean)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/py-AutoClean)
 ![PyPI - License](https://img.shields.io/pypi/l/py-AutoClean)
 
-**Python Package for Automated Dataset Preprocessing & Cleaning**
+**AutoClean helps you automate redundant data cleaning tasks of your next Data Science project.**
 
 ```python
 pip install py-AutoClean
 ```
-
 :thought_balloon: Read more on how the algorithm of AutoClean works in my Medium article [Automated Data Cleaning with Python](link).
 
 ## Description
-It is commonly known among Data Scientists that data cleaning and preprocessing make up a major part of a data science project. And, in all honesty, on average it is not the most exciting part of the project.
+It is commonly known among Data Scientists that data cleaning and preprocessing make up a major part of a data science project. And, you will probably agree with me that it is not the most exciting part of the project. *Wouldn't it be great if this part could be automated?*
 
-:white_check_mark: AutoClean helps you **save time** in major parts of these tasks and performs **preprocessing** in an **automated manner**!
+:white_check_mark: AutoClean helps you with exactly that: it performs **preprocessing** and **cleaning** of data in an **automated manner**, so that you can **save time** when working on your next project.
 
 AutoClean supports:
 
@@ -25,7 +24,29 @@ AutoClean supports:
 :point_right: **Extraction** of datatime values  
 :point_right: and more!
 
-As an example, the following sample dataset will be passed through the AutoClean pipeline:
+## Basic Usage
+
+AutoClean takes a Pandas dataframe as input and has a built in logic of how to *automatically* clean and process your data. You can let your dataset run through the default AutoClean pipeline by using:
+
+````python
+from AutoClean import AutoClean
+pipeline = AutoClean(dataset)
+````
+
+The resulting output dataframe can be accessed by using:
+
+````python
+pipeline.output
+
+> Output:
+    col_1  col_2  ...  col_n
+1   data   data   ...  data
+2   data   data   ...  data
+... ...    ...    ...  ...
+````
+
+### Example
+As a visual example, the following sample dataset will be passed through the AutoClean pipeline:
 
 <p align="center">
   <img src="Misc/sample_data.png" width="300" title="Example Output: Duplicate Image Finder">
@@ -37,22 +58,18 @@ As an example, the following sample dataset will be passed through the AutoClean
   <img src="Misc/sample_data_output.png" width="700" title="Example Output: Duplicate Image Finder">
 </p>
 
-## Basic Usage
-
-````python
-from AutoClean import AutoClean
-pipeline = AutoClean(dataset)
-````
-
 ## Adjustable Parameters
 
-AutoClean has the following adjustable parameters:
+In some cases, the default settings of AutoClean might not optimally fit your data. Therefore it also supports manual settings so that you can adjust it to whatever processing you might need. 
+
+It has the following adjustable parameters, for which the options and decsriptions can be found below:
 
 ````python
-AutoClean(dataset, missing_num='auto', missing_categ='auto', encode_categ=['auto'], extract_datetime='s', outliers='winz', outlier_param=1.5, logfile=True, verbose=False)
+AutoClean(dataset, missing_num='auto', missing_categ='auto', encode_categ=['auto'],     
+          extract_datetime='s', outliers='winz', outlier_param=1.5, logfile=True, verbose=False)
 ````
 
-| Parameter &nbsp-s | Type &nbsp-s | Default Value &nbsp-s | Other Values |
+| Parameter | Type | Default Value | Other Values |
 | ------ | :---: | :---: | ------ | 
 | missing_num | `str` | `'auto'` | `linreg`, `knn`, `mean`, `median`, `most_frequent`, `delete` |
 | missing_categ | `str` | `'auto'` | `logreg`, `knn`, `most_frequent`, `delete` |
@@ -61,6 +78,18 @@ AutoClean(dataset, missing_num='auto', missing_categ='auto', encode_categ=['auto
 | outliers | `str` | `'winz'` | `delete`|
 | outlier_param | `int`, `float` | `1.5` | any int or float |
 | logfile | `bool` | `True` | `False` |
-| verbose | `bool` | `True` | `False` |
+| verbose | `bool` | `False` | `True` |
 
+### missing_num
 
+### missing_categ
+
+### extract_datetime
+
+### outliers
+
+### outlier_param
+
+### logfile
+
+### verbose
