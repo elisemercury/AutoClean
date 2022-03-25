@@ -10,7 +10,11 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from loguru import logger
 import warnings
-warnings.filterwarnings("ignore")
+warnings.filterwarnings('ignore')
+
+'''
+Modules are used by the AutoClean pipeline for data cleaning and preprocessing.
+'''
 
 class MissingValues:
 
@@ -25,10 +29,10 @@ class MissingValues:
             df = df.dropna(how='all')
             df.reset_index(drop=True)
             
-            if self.missing_num:
+            if self.missing_num: # numeric data
                 logger.info('Started handling of NUMERICAL missing values... Method: "{}"', self.missing_num.upper())
-                # automated handling of missing values
-                if self.missing_num == 'auto':
+                # automated handling
+                if self.missing_num == 'auto': 
                     self.missing_num = 'linreg'
                     lr = LinearRegression()
                     df = MissingValues._lin_regression_impute(self, df, lr)
@@ -39,7 +43,7 @@ class MissingValues:
                 elif self.missing_num == 'linreg':
                     lr = LinearRegression()
                     df = MissingValues._lin_regression_impute(self, df, lr)
-                # knn imputation (default)
+                # knn imputation
                 elif self.missing_num == 'knn':
                     imputer = KNNImputer(n_neighbors=_n_neighbors)
                     df = MissingValues._impute(self, df, imputer, type='num')
@@ -52,9 +56,9 @@ class MissingValues:
                     df = MissingValues._delete(self, df, type='num')
                     logger.debug('Deletion of {} NUMERIC missing value(s) succeeded', self.count_missing-df.isna().sum().sum())      
 
-            if self.missing_categ:
+            if self.missing_categ: # categorical data
                 logger.info('Started handling of CATEGORICAL missing values... Method: "{}"', self.missing_categ.upper())
-                # automated handling of missing values
+                # automated handling
                 if self.missing_categ == 'auto':
                     self.missing_categ = 'logreg'
                     lr = LogisticRegression()
@@ -65,7 +69,7 @@ class MissingValues:
                 elif self.missing_categ == 'logreg':
                     lr = LogisticRegression()
                     df = MissingValues._log_regression_impute(self, df, lr)
-                # knn imputation (default)
+                # knn imputation
                 elif self.missing_categ == 'knn':
                     imputer = KNNImputer(n_neighbors=_n_neighbors)
                     df = MissingValues._impute(self, df, imputer, type='categ')  
@@ -84,6 +88,7 @@ class MissingValues:
         return df
 
     def _impute(self, df, imputer, type):
+        # function for imputing missing values in the data
         cols_num = df.select_dtypes(include=np.number).columns 
         if type == 'num':
             # numerical features
@@ -131,50 +136,36 @@ class MissingValues:
         return df
 
     def _lin_regression_impute(self, df, model):
+        # function for predicting missing values with linear regression
         cols_num = df.select_dtypes(include=np.number).columns
         mapping = dict()
         for feature in df.columns:
             if feature not in cols_num:
+                # create label mapping for categorical feature values
                 mappings = {k: i for i, k in enumerate(df[feature].dropna().unique(), 0)}
                 mapping[feature] = mappings
                 df[feature] = df[feature].map(mapping[feature])
-            
         for feature in cols_num: 
                 try:
                     test_df = df[df[feature].isnull()==True].dropna(subset=[x for x in df.columns if x != feature])
                     train_df = df[df[feature].isnull()==False].dropna(subset=[x for x in df.columns if x != feature])
-                    
-                    #print(train_df.isna().sum().sum())
-                    #print(np.all(np.isfinite(train_df)))
-
-                    pipe = make_pipeline(StandardScaler(), model)
-                    
                     if len(test_df.index) != 0:
+                        pipe = make_pipeline(StandardScaler(), model)
 
-                        y = np.log(train_df[feature]) #np.log
-                        #print("Y shape", y.shape)
-                        #print(y.isna().sum().sum())
-                        #print(np.all(np.isfinite(y)))   
-                        #print(y)
-
+                        y = np.log(train_df[feature]) # log-transform the data
                         X_train = train_df.drop(feature, axis=1)
                         test_df.drop(feature, axis=1, inplace=True)
                         
                         try:
                             model = pipe.fit(X_train, y)
                         except:
-                            y = train_df[feature]
+                            y = train_df[feature] # use non-log-transformed data
                             model = pipe.fit(X_train, y)
-
-                        #print(cross_val_score(model, X_train, y, scoring='neg_root_mean_squared_error', cv=5)) #cross val
-                        #cv = KFold(n_splits=5, random_state=1, shuffle=True)
-                        #print((KFold(n_splits=5, random_state=1, shuffle=True)))
-                        #print(model.score(X_train, y))
-                        
                         if (y == train_df[feature]).all():
-                            pred = model.predict(test_df) # predicted values np.exp()
+                            pred = model.predict(test_df)
                         else:
-                            pred = np.exp(model.predict(test_df))
+                            pred = np.exp(model.predict(test_df)) # predict values
+
                         test_df[feature]= pred
 
                         if (df[feature].fillna(-9999) % 1  == 0).all():
@@ -185,31 +176,28 @@ class MissingValues:
                         else:
                             df[feature].update(test_df[feature])  
                         logger.debug('LINREG imputation of {} value(s) succeeded for feature "{}"', len(pred), feature)
-
-                except Exception as e:
+                except:
                     logger.warning('LINREG imputation failed for feature "{}"', feature)
-
-                    print(feature, e)
-                    print(train_df)
-
         for feature in df.columns: 
             try:   
+                # map categorical feature values back to original
                 mappings_inv = {v: k for k, v in mapping[feature].items()}
                 df[feature] = df[feature].map(mappings_inv)
-            except Exception as e:
+            except:
                 pass
-
         return df
 
     def _log_regression_impute(self, df, model):
+        # function for predicting missing values with logistic regression
         cols_num = df.select_dtypes(include=np.number).columns
         mapping = dict()
         for feature in df.columns:
             if feature not in cols_num:
+                # create label mapping for categorical feature values
                 mappings = {k: i for i, k in enumerate(df[feature].dropna().unique(), 0)}
                 mapping[feature] = mappings
                 df[feature] = df[feature].map(mapping[feature])
-        
+
         target_cols = [x for x in df.columns if x not in cols_num]
             
         for feature in df.columns: 
@@ -218,17 +206,15 @@ class MissingValues:
                     test_df = df[df[feature].isnull()==True].dropna(subset=[x for x in df.columns if x != feature])
                     train_df = df[df[feature].isnull()==False].dropna(subset=[x for x in df.columns if x != feature])
                     if len(test_df.index) != 0:
-
                         pipe = make_pipeline(StandardScaler(), model)
 
                         y = train_df[feature]
                         train_df.drop(feature, axis=1, inplace=True)
                         test_df.drop(feature, axis=1, inplace=True)
 
-                        # use response int and regressors to predict y
                         model = pipe.fit(train_df, y)
                         
-                        pred = model.predict(test_df) # predicted values
+                        pred = model.predict(test_df) # predict values
                         test_df[feature]= pred
 
                         if (df[feature].fillna(-9999) % 1  == 0).all():
@@ -236,22 +222,20 @@ class MissingValues:
                             test_df[feature] = test_df[feature].round()
                             test_df[feature] = test_df[feature].astype(int)
                             df[feature].update(test_df[feature])                              
-
                         logger.debug('LOGREG imputation of {} value(s) succeeded for feature "{}"', len(pred), feature)
-
                 except:
                     logger.warning('LOGREG imputation failed for feature "{}"', feature)
-
         for feature in df.columns: 
-            try:   
+            try:
+                # map categorical feature values back to original
                 mappings_inv = {v: k for k, v in mapping[feature].items()}
                 df[feature] = df[feature].map(mappings_inv)
-            except Exception as e:
+            except:
                 pass     
-
         return df
 
     def _delete(self, df, type):
+        # function for deleting missing values
         cols_num = df.select_dtypes(include=np.number).columns 
         if type == 'num':
             # numerical features
@@ -270,14 +254,13 @@ class MissingValues:
 class Outliers:
 
     def handle(self, df):
-        #defines observations as outliers if they are outside of range [Q1-1.5*IQR ; Q3+1.5*IQR] whereas IQR is the interquartile range.
+        # function for handling of outliers in the data
         if self.outliers:
             logger.info('Started handling of outliers... Method: "{}"', self.outliers.upper())
-            start = timer()   
+            start = timer()  
 
             if self.outliers == 'winz':  
                 df = Outliers._winsorization(self, df)
-
             elif self.ourliers == 'delete':
                 df = Outliers._delete(self, df)
             
@@ -286,6 +269,7 @@ class Outliers:
         return df     
 
     def _winsorization(self, df):
+        # function for outlier winsorization
         cols_num = df.select_dtypes(include=np.number).columns    
         for feature in cols_num:           
             counter = 0
@@ -312,6 +296,7 @@ class Outliers:
         return df
 
     def _delete(self, df):
+        # function for deleting outliers in the data
         cols_num = df.select_dtypes(include=np.number).columns    
         for feature in cols_num:
             counter = 0
@@ -327,6 +312,7 @@ class Outliers:
         return df
 
     def _compute_bounds(self, df, col):
+        # function that computes the lower and upper bounds for finding outliers in the data
         colSorted = sorted(df[col])
         
         q1, q3 = np.percentile(colSorted, [25, 75])
@@ -340,11 +326,11 @@ class Outliers:
 class Adjust:
 
     def convert_datetime(self, df):
+        # function for extracting of datetime values in the data
         if self.extract_datetime:
             logger.info('Started conversion of DATETIME features... Granularity: {}', self.extract_datetime)
             start = timer()
             cols = set(df.columns) ^ set(df.select_dtypes(include=np.number).columns) 
-
             for feature in cols: 
                 try:
                     # convert features encoded as strings to type datetime ['D','M','Y','h','m','s']
@@ -370,7 +356,7 @@ class Adjust:
                         logger.debug('Conversion to DATETIME succeeded for feature "{}"', feature)
 
                         try: 
-                            # check if entries for the extracted dates/times are valid, otherwise drop
+                            # check if entries for the extracted dates/times are non-NULL, otherwise drop
                             if (df['Hour'] == 0).all() and (df['Minute'] == 0).all() and (df['Sec'] == 0).all():
                                 df.drop('Hour', inplace = True, axis =1 )
                                 df.drop('Minute', inplace = True, axis =1 )
@@ -381,13 +367,11 @@ class Adjust:
                                 df.drop('Year', inplace = True, axis =1 )   
                         except:
                             pass          
-                    
                     except:
                         # feature cannot be converted to datetime
                         logger.warning('Conversion to DATETIME failed for "{}"', feature)
                 except:
                     pass
-
             end = timer()
             logger.info('Completed conversion of DATETIME features in {} seconds', round(end-start, 4))
         return df
@@ -399,7 +383,6 @@ class Adjust:
         counter = 0
         cols_num = df.select_dtypes(include=np.number).columns
         for feature in cols_num:
-
                 # check if all values are integers
                 if (df[feature].fillna(-9999) % 1  == 0).all():
                     try:
@@ -434,6 +417,7 @@ class Adjust:
 class EncodeCateg:
 
     def handle(self, df):
+        # function for encoding of categorical features in the data
         if self.encode_categ[0]:
             # select non numeric features
             cols_categ = set(df.columns) ^ set(df.select_dtypes(include=np.number).columns) 
@@ -483,7 +467,8 @@ class EncodeCateg:
             logger.info('Completed encoding of categorical features in {} seconds', round(end-start, 6))
         return df
 
-    def _to_onehot(self, df, col, limit=15):        
+    def _to_onehot(self, df, col, limit=10):  
+        # function that encodes categorical features to OneHot encodings    
         one_hot = pd.get_dummies(df[col], prefix=col)
         if one_hot.shape[1] > limit:
             logger.warning('ONEHOT encoding for feature "{}" creates {} new features. Consider LABEL encoding instead.', col, one_hot.shape[1])
@@ -492,8 +477,9 @@ class EncodeCateg:
         return df
 
     def _to_label(self, df, col):
+        # function that encodes categorical features to label encodings 
         le = preprocessing.LabelEncoder()
-        
+
         df[col + '_lab'] = le.fit_transform(df[col].values)
         mapping = dict(zip(le.classes_, range(len(le.classes_))))
         

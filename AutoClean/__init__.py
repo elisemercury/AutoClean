@@ -1,1 +1,1 @@
-from AutoClean import AutoClean
+from AutoClean.AutoClean import AutoClean

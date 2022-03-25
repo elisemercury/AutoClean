@@ -1,8 +1,8 @@
+import os
 import sys
 import pandas as pd
-from AutoClean.Modules import *
-
 from loguru import logger
+from AutoClean.Modules import *
 
 class AutoClean:
 
@@ -11,15 +11,21 @@ class AutoClean:
         input_data (dataframe)..........Pandas dataframe
         missing_num (str)...............define how NUMERICAL missing values are handled
                                         'auto' = automated handling
-                                        'knn' = uses K-NN algorithm for missing value imputation
+                                        'linreg' = uses Linear Regression for predicting missing values
+                                        'knn' = uses K-NN algorithm for imputation
                                         'mean','median' or 'most_frequent' = uses mean/median/mode imputatiom
                                         'delete' = deletes observations with missing values
         missing_categ (str).............define how CATEGORICAL missing values are handled
+                                        'auto' = automated handling
+                                        'logreg' = uses Logistic Regression for predicting missing values
+                                        'knn' = uses K-NN algorithm for imputation
+                                        'most_frequent' = uses mode imputatiom
+                                        'delete' = deletes observations with missing values
         encode_categ (list).............encode CATEGORICAL features, takes a list as input
-
+                                        ['auto'] = automated encoding
                                         ['onehot'] = one-hot-encode all CATEGORICAL features
                                         ['label'] = label-encode all categ. features
-                                        to encode only specific features add the column name or number: ['onehot', ['col1', 'col3']]
+                                        to encode only specific features add the column name or index: ['onehot', ['col1', 2]]
         extract_datetime (str)..........define whether DATETIME type features should be extracted into separate features
                                         to define granularity set to 'D'= day, 'M'= month, 'Y'= year, 'h'= hour, 'm'= minute or 's'= second
         outliers (str)..................define how outliers are handled
@@ -31,11 +37,11 @@ class AutoClean:
                                         define the multiplier for the outlier bounds
         logfile (bool)..................define whether to create a logile during the AutoClean process
                                         logfile will be saved in working directory as "autoclean.log"
-        verbose (bool)..................define whether  AutoClean logs will be printed in console
+        verbose (bool)..................define whether AutoClean logs will be printed in console
         
         OUTPUT (dataframe)..............a cleaned Pandas dataframe, accessible through the 'output_data' instance
         '''    
-        AutoClean._initialize_logger(self, verbose, logfile)
+        self._initialize_logger(verbose, logfile)
         
         output_data = input_data.copy()
     
@@ -47,10 +53,12 @@ class AutoClean:
         self.outlier_param = outlier_param
         
         # validate the input parameters
-        AutoClean._validate_params(self, output_data, verbose, logfile)
+        self._validate_params(output_data, verbose, logfile)
         
         # initialize our class and start the autoclean process
-        self.output_data = AutoClean._clean_data(self, output_data, input_data)
+        self.output = self._clean_data(output_data, input_data)
+
+        print('Logfile saved to:', os.path.join(os.getcwd(), 'autoclean.log'))
 
     def _initialize_logger(self, verbose, logfile):
         # function for initializing the logging process
@@ -59,7 +67,6 @@ class AutoClean:
             logger.add(sys.stderr, format='{time:DD-MM-YYYY HH:mm:ss.SS} - {level} - {message}')
         if logfile == True:    
             logger.add('autoclean.log', mode='w', format='{time:DD-MM-YYYY HH:mm:ss.SS} - {level} - {message}')
-
         return
 
     def _validate_params(self, df, verbose, logfile):
@@ -95,19 +102,9 @@ class AutoClean:
     def _clean_data(self, df, input_data):
         # function for starting the autoclean process
         df = MissingValues.handle(self, df)
-        df1 = df.copy()
-        self.df1 = df
-        df = Outliers.handle(self, df)
-        df2 = df.copy()
-        self.df2 = df        
+        df = Outliers.handle(self, df)    
         df = Adjust.convert_datetime(self, df) 
-        df3 = df.copy()
-        self.df3 = df
-        df = EncodeCateg.handle(self, df)
-        df4 = df.copy()
-        self.df4 = df        
+        df = EncodeCateg.handle(self, df)     
         df = Adjust.round_values(self, df, input_data)
-        df5 = df.copy()
-        self.df5 = df
         logger.info('AutoClean completed successfully')
         return df        
