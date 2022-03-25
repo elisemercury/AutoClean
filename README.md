@@ -52,7 +52,7 @@ AutoClean has the following adjustable parameters:
 AutoClean(dataset, missing_num='auto', missing_categ='auto', encode_categ=['auto'], extract_datetime='s', outliers='winz', outlier_param=1.5, logfile=True, verbose=False)
 ````
 
-| Parameter | Type | Default Value | Other Values |
+| Parameter &nbsp-s | Type &nbsp-s | Default Value &nbsp-s | Other Values |
 | ------ | :---: | :---: | ------ | 
 | missing_num | `str` | `'auto'` | `linreg`, `knn`, `mean`, `median`, `most_frequent`, `delete` |
 | missing_categ | `str` | `'auto'` | `logreg`, `knn`, `most_frequent`, `delete` |
