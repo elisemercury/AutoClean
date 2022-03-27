@@ -4,12 +4,14 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/py-AutoClean)
 ![PyPI - License](https://img.shields.io/pypi/l/py-AutoClean)
 
-**AutoClean helps you automate redundant data cleaning tasks of your next Data Science project.**
+**AutoClean automates data preprocessing & cleaning in your next Data Science project.**
 
 ```python
 pip install py-AutoClean
 ```
 :thought_balloon: Read more on how the algorithm of AutoClean works in my Medium article [Automated Data Cleaning with Python](link).
+
+---
 
 ## Description
 It is commonly known among Data Scientists that data cleaning and preprocessing make up a major part of a data science project. And, you will probably agree with me that it is not the most exciting part of the project. *Wouldn't it be great if this part could be automated?*
@@ -62,7 +64,7 @@ As a visual example, the following sample dataset will be passed through the Aut
 
 In some cases, the default settings of AutoClean might not optimally fit your data. Therefore it also supports manual settings so that you can adjust it to whatever processing you might need. 
 
-It has the following adjustable parameters, for which the options and decsriptions can be found below:
+It has the following adjustable parameters, for which the options and descriptions can be found below:
 
 ````python
 AutoClean(dataset, missing_num='auto', missing_categ='auto', encode_categ=['auto'],     
@@ -82,9 +84,19 @@ AutoClean(dataset, missing_num='auto', missing_categ='auto', encode_categ=['auto
 
 ### missing_num
 
+Defines how **numerical** missing values in the data are handled. Missing values can be predicted, imputed or deleted. When set to `auto`, AutoClean first attempts to predict the missing values with **Linear Regression**, and the values that could not be predicted are **imputed with K-NN**.
+
+You can specify the handling method by setting `missing_num` to: `'linreg'`, `'knn'`, `'mean'`, `'median'`, `'most_frequent'` or `'delete'`.
+
 ### missing_categ
 
+Defines how **categorical** missing values in the data are handled. Missing values can be predicted, imputed or deleted. When set to `auto`, AutoClean first attempts to predict the missing values with **Logistic Regression**, and the values that could not be predicted are **imputed with K-NN**.
+
+You can specify the handling method by setting `missing_categ` to: `'logreg'`, `'knn'`, `'most_frequent'` or `'delete'`.
+
 ### extract_datetime
+
+AutoClean can search the data for datetime features, and extract the values to separate columns. You csan set the granularity of the 
 
 ### outliers
 
