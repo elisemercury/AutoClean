@@ -63,7 +63,7 @@ As a visual example, the following sample dataset will be passed through the Aut
 
 ## Adjustable Parameters
 
-In some cases, the default settings of AutoClean might not optimally fit your data. Therefore it also supports **manual settings** so that you can adjust it to whatever processing you might need. 
+In some cases, the default settings of AutoClean might not optimally fit your data. Therefore it also supports **manual settings** so that you can adjust it to whatever processing steps you might need. 
 
 It has the following adjustable parameters, for which the options and descriptions can be found below:
 
@@ -74,12 +74,12 @@ AutoClean(dataset, missing_num='auto', missing_categ='auto', encode_categ=['auto
 
 | Parameter | Type | Default Value | Other Values |
 | ------ | :---: | :---: | ------ | 
-| missing_num | `str` | `'auto'` | `linreg`, `knn`, `mean`, `median`, `most_frequent`, `delete` |
-| missing_categ | `str` | `'auto'` | `logreg`, `knn`, `most_frequent`, `delete` |
-| missing_categ | `list` | `['auto']` | `['onehot']`, `['label']`; to encode only specific columns add a list of column names or indexes: `['auto', ['col1', 2]]` |
-| extract_datetime | `str` | `'s'` | `D`, `M`, `Y`, `h`, `m` |
+| missing_num | `str` | `'auto'` | `linreg`, `knn`, `mean`, `median`, `most_frequent`, `delete`, `False` |
+| missing_categ | `str` | `'auto'` | `logreg`, `knn`, `most_frequent`, `delete`, `False` |
+| missing_categ | `list` | `['auto']` | `['onehot']`, `['label']`, `False` ; to encode only specific columns add a list of column names or indexes: `['auto', ['col1', 2]]` |
+| extract_datetime | `str` | `'s'` | `D`, `M`, `Y`, `h`, `m`, `False` |
 | outliers | `str` | `'winz'` | `delete`|
-| outlier_param | `int`, `float` | `1.5` | any int or float |
+| outlier_param | `int`, `float` | `1.5` | any int or float, `False` |
 | logfile | `bool` | `True` | `False` |
 | verbose | `bool` | `False` | `True` |
 
