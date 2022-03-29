@@ -10,7 +10,7 @@
 ```python
 pip install py-AutoClean
 ```
-:thought_balloon: Read more on the AutoClean algorithm in my Medium article [Automated Data Cleaning with Python](link).
+:thought_balloon: Read more on the AutoClean algorithm in my **Medium** article [Automated Data Cleaning with Python](link).
 
 ---
 
