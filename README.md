@@ -114,7 +114,7 @@ Oberservations are considered outliers if they are outside the following bounds:
 [Q1 - 1.5*IQR , Q3 + 1.5*IQR]
 ````
 where  
-... Q1 and Q3 are the first and third quartile of the feature values
+... Q1 and Q3 are the first and third quartile of the feature values  
 ... IQR is the interquartile range of the feature values
 
 As soon as a value is below the lower or upper bound, the chosen outlier handling method is applied i. e. either winsorization, meaning it will be replaced by the respective lower or upper bound, or the observation will be deleted.
