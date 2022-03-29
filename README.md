@@ -1,31 +1,23 @@
 # AutoClean - Automated Data Preprocessing & Cleaning
 
-![PyPIv](https://img.shields.io/pypi/v/py-AutoClean)
-![PyPI status](https://img.shields.io/pypi/status/py-AutoClean)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/py-AutoClean)
-![PyPI - License](https://img.shields.io/pypi/l/py-AutoClean)
-
 **AutoClean automates data preprocessing & cleaning for your next Data Science project in Python.**
 
-```python
-pip install py-AutoClean
-```
-:thought_balloon: Read more on the AutoClean algorithm in my **Medium** article [Automated Data Cleaning with Python](link).
+Read more on the AutoClean algorithm in my **Medium** article [Automated Data Cleaning with Python](https://eliselandman.medium.com/automated-data-cleaning-with-python-94d44d854423).
 
 ---
 
 ## Description
 It is commonly known among Data Scientists that data cleaning and preprocessing make up a major part of a data science project. And, you will probably agree with me that it is not the most exciting part of the project. *Wouldn't it be great if this part could be automated?*
 
-:white_check_mark: AutoClean helps you exactly with that: it performs **preprocessing** and **cleaning** of data in Python in an **automated manner**, so that you can **save time** when working on your next project.
+AutoClean helps you exactly with that: it performs **preprocessing** and **cleaning** of data in Python in an **automated manner**, so that you can **save time** when working on your next project.
 
 AutoClean supports:
 
-:point_right: Various imputation methods for **missing values**  
-:point_right: Handling of **outliers**  
-:point_right: **Encoding** of categorical data (OneHot, Label)  
-:point_right: **Extraction** of datatime values  
-:point_right: and more!
+* Various imputation methods for **missing values**  
+* Handling of **outliers**  
+* **Encoding** of categorical data (OneHot, Label)  
+* **Extraction** of datatime values  
+* and more!
 
 ## Basic Usage
 
@@ -47,19 +39,6 @@ pipeline.output
 2   data   data   ...  data
 ... ...    ...    ...  ...
 ````
-
-### Example
-As a visual example, the following sample dataset will be passed through the AutoClean pipeline:
-
-<p align="center">
-  <img src="Misc/sample_data.png" width="300" title="Example Output: Duplicate Image Finder">
-</p>
-
- The output of AutoClean looks as following, whereas the various adjustments have been highlighted:
-
- <p align="center">
-  <img src="Misc/sample_data_output.png" width="700" title="Example Output: Duplicate Image Finder">
-</p>
 
 ## Adjustable Parameters
 
@@ -117,13 +96,13 @@ where
 
 As soon as a value is below the lower or upper bound, the chosen outlier handling method is applied i. e. either winsorization, meaning it will be replaced by the respective lower or upper bound, or the observation will be deleted.
 
-You can **customize** the outlier bounds by changing the default `outliers_param` value of `1.5` to any integer or float of your choice.
+You can **customize** the outlier bounds by changing the default `outlier_param` value of `1.5` to any integer or float of your choice.
 
 ### outlier_param
 
 ! Recommended not to change default value
 
-You can **customize** the outlier bounds by changing the default `outliers_param` value of `1.5` to any integer or float of your choice.
+You can **customize** the outlier bounds by changing the default `outlier_param` value of `1.5` to any integer or float of your choice.
 
 ### logfile
 
