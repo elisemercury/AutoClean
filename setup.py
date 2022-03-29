@@ -9,7 +9,7 @@ with open(os.path.join(base_dir, "README.md")) as f:
 setup(
   name = 'py-AutoClean',         
   packages = ['AutoClean'],   
-  version = 'v0.0.6-alpha',      
+  version = 'v0.0.7-alpha',      
   license='MIT',        
   description = 'AutoClean - Python Package for Automated Preprocessing & Cleaning of Datasets', 
   long_description=long_description,
