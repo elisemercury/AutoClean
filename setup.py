@@ -17,7 +17,7 @@ setup(
   author = 'Elise Landman',                  
   author_email = 'elisejlandman@hotmail.com', 
   url = 'https://github.com/elisemercury/AutoClean', 
-  download_url = 'https://github.com/elisemercury/AutoClean/archive/refs/tags/0.0.1-alpha.tar.gz',    # change everytime for each new release
+  download_url = 'https://github.com/elisemercury/AutoClean/archive/refs/tags/0.0.1-beta.tar.gz',    # change everytime for each new release
   keywords = ['automated', 'cleaning', 'preprocessing', "autoclean"],  
   install_requires=[          
           'scikit-learn',
