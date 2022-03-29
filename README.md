@@ -93,7 +93,7 @@ You can specify the handling method by setting `missing_num` to: `'linreg'`, `'k
 
 Defines how **categorical** missing values in the data are handled. Missing values can be predicted, imputed or deleted. When set to `auto`, AutoClean first attempts to predict the missing values with **Logistic Regression**, and the values that could not be predicted are **imputed with K-NN**.
 
-You can specify the handling method by setting `missing_categ` to: `'logreg'`, `'knn'`, `'most_frequent'` or `'delete'` or to `False` if you want to skip this step.
+You can specify the handling method by setting `missing_categ` to: `'logreg'`, `'knn'`, `'most_frequent'`, `'delete'` or to `False` if you want to skip this step.
 
 ### extract_datetime
 
