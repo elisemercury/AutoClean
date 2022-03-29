@@ -1,8 +1,9 @@
 # AutoClean - Automated Data Preprocessing & Cleaning
 
 ![PyPI](https://img.shields.io/pypi/v/py-AutoClean)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/py-AutoClean)
-![PyPI - License](https://img.shields.io/pypi/l/py-AutoClean)
+[![PyPI status](https://img.shields.io/pypi/status/py-AutoClean.svg)](https://pypi.python.org/pypi/py-AutoClean)
+![[PyPI - Python Version](https://img.shields.io/pypi/py-AutoClean.svg)](https://img.shields.io/pypi/pyversions/py-AutoClean)
+![[PyPI - License](https://img.shields.io/pypi/py-AutoClean.svg)](https://img.shields.io/pypi/l/py-AutoClean)
 ![Medium](https://img.shields.io/badge/-Medium-000000?logo=Medium&logoColor=white)
 
 **AutoClean automates data preprocessing & cleaning in your next Data Science project.**
