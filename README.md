@@ -1,12 +1,12 @@
 # AutoClean - Automated Data Preprocessing & Cleaning
 
-![PyPI](https://img.shields.io/pypi/v/py-AutoClean)
-[![PyPI status](https://img.shields.io/pypi/status/py-AutoClean.svg)](https://pypi.python.org/pypi/py-AutoClean)
-![[PyPI - Python Version](https://img.shields.io/pypi/py-AutoClean.svg)](https://img.shields.io/pypi/pyversions/py-AutoClean)
-![[PyPI - License](https://img.shields.io/pypi/py-AutoClean.svg)](https://img.shields.io/pypi/l/py-AutoClean)
+![PyPIv](https://img.shields.io/pypi/v/py-AutoClean)
+![PyPI status](https://img.shields.io/pypi/status/py-AutoClean)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/py-AutoClean)
+![PyPI - License](https://img.shields.io/pypi/l/py-AutoClean)
 ![Medium](https://img.shields.io/badge/-Medium-000000?logo=Medium&logoColor=white)
 
-**AutoClean automates data preprocessing & cleaning in your next Data Science project.**
+**AutoClean automates data preprocessing & cleaning for your next Data Science project in Python.**
 
 ```python
 pip install py-AutoClean
@@ -18,7 +18,7 @@ pip install py-AutoClean
 ## Description
 It is commonly known among Data Scientists that data cleaning and preprocessing make up a major part of a data science project. And, you will probably agree with me that it is not the most exciting part of the project. *Wouldn't it be great if this part could be automated?*
 
-:white_check_mark: AutoClean helps you exactly with that: it performs **preprocessing** and **cleaning** of data in an **automated manner**, so that you can **save time** when working on your next project.
+:white_check_mark: AutoClean helps you exactly with that: it performs **preprocessing** and **cleaning** of data in Python in an **automated manner**, so that you can **save time** when working on your next project.
 
 AutoClean supports:
 
@@ -30,7 +30,7 @@ AutoClean supports:
 
 ## Basic Usage
 
-AutoClean takes a Pandas dataframe as input and has a built-in logic of how to *automatically* clean and process your data. You can let your dataset run through the default AutoClean pipeline by using:
+AutoClean takes a **Pandas dataframe as input** and has a built-in logic of how to **automatically** clean and process your data. You can let your dataset run through the default AutoClean pipeline by using:
 
 ````python
 from AutoClean import AutoClean
@@ -64,7 +64,7 @@ As a visual example, the following sample dataset will be passed through the Aut
 
 ## Adjustable Parameters
 
-In some cases, the default settings of AutoClean might not optimally fit your data. Therefore it also supports manual settings so that you can adjust it to whatever processing you might need. 
+In some cases, the default settings of AutoClean might not optimally fit your data. Therefore it also supports **manual settings** so that you can adjust it to whatever processing you might need. 
 
 It has the following adjustable parameters, for which the options and descriptions can be found below:
 
