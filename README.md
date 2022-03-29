@@ -12,6 +12,8 @@ pip install py-AutoClean
 ```
 :thought_balloon: Read more on the AutoClean algorithm in my **Medium** article [Automated Data Cleaning with Python](https://eliselandman.medium.com/automated-data-cleaning-with-python-94d44d854423).
 
+View AutoClean on [PyPi](https://pypi.org/project/py-AutoClean/).
+
 ---
 
 ## Description
