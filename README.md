@@ -99,7 +99,7 @@ You can specify the handling method by setting `missing_categ` to: `'logreg'`, `
 
 AutoClean can search the data for datetime features, and **extract** the values to separate columns. When set to `s`, it extracts the datetime values up to the seconds i. e. day, month, year, hour, minutes, seconds.
 
-You can set the granularity of the extraction manually with `D` for day, `M` for month, `Y` for year, `h` for hour, `m` for minutes or to `False` if you want to skip this step. 
+You can set the granularity of the extraction manually by setting `extract_datetime`to `D` for day, `M` for month, `Y` for year, `h` for hour, `m` for minutes or to `False` if you want to skip this step. 
 
 ### outliers
 
