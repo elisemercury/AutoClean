@@ -15,24 +15,29 @@ class AutoClean:
                                         'knn' = uses K-NN algorithm for imputation
                                         'mean','median' or 'most_frequent' = uses mean/median/mode imputatiom
                                         'delete' = deletes observations with missing values
+                                        'False' = skips this step
         missing_categ (str).............define how CATEGORICAL missing values are handled
                                         'auto' = automated handling
                                         'logreg' = uses Logistic Regression for predicting missing values
                                         'knn' = uses K-NN algorithm for imputation
                                         'most_frequent' = uses mode imputatiom
                                         'delete' = deletes observations with missing values
+                                        'False' = skips this step
         encode_categ (list).............encode CATEGORICAL features, takes a list as input
                                         ['auto'] = automated encoding
                                         ['onehot'] = one-hot-encode all CATEGORICAL features
                                         ['label'] = label-encode all categ. features
                                         to encode only specific features add the column name or index: ['onehot', ['col1', 2]]
+                                        'False' = skips this step
         extract_datetime (str)..........define whether DATETIME type features should be extracted into separate features
                                         to define granularity set to 'D'= day, 'M'= month, 'Y'= year, 'h'= hour, 'm'= minute or 's'= second
+                                        'False' = skips this step
         outliers (str)..................define how outliers are handled
                                         'winz' = replaces outliers through winsorization
                                         'delete' = deletes observations containing outliers
                                         oberservations are considered outliers if they are outside the lower and upper bound [Q1-1.5*IQR, Q3+1.5*IQR], where IQR is the interquartile range
                                         to set a custom multiplier use the 'outlier_param' parameter
+                                        'False' = skips this step
         outlier_param (int, float)......! recommended not to change default value
                                         define the multiplier for the outlier bounds
         logfile (bool)..................define whether to create a logile during the AutoClean process
