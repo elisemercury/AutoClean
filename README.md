@@ -97,12 +97,40 @@ You can specify the handling method by setting `missing_categ` to: `'logreg'`, `
 
 ### extract_datetime
 
-AutoClean can search the data for datetime features, and extract the values to separate columns. You csan set the granularity of the 
+AutoClean can search the data for datetime features, and **extract** the values to separate columns. When set to `s`, it extracts the datetime values up to the seconds i. e. day, month, year, hour, minutes, seconds.
+
+You can set the granularity of the extraction manually with `D` for day, `M` for month, `Y` for year, `h` for hour, `m` for minutes. 
 
 ### outliers
 
+Defines how **outliers** in the data are handled. Outliers can be manipulated with two different methods: winsorization or deletion. You can specfiy the method by setting `outliers` to `winz` for winzorization, and `delete`for deletion.
+
+*When are outliers considered to be outliers?*  
+Oberservations are considered outliers if they are outside the following bounds:
+
+````python
+[Q1 - 1.5*IQR , Q3 + 1.5*IQR]
+````
+where  
+... Q1 and Q3 are the first and third quartile of the feature values
+... IQR is the interquartile range of the feature values
+
+As soon as a value is below the lower or upper bound, the chosen outlier handling method is applied i. e. either winsorization, meaning it will be replaced by the respective lower or upper bound, or the observation will be deleted.
+
+You can **customize** the outlier bounds by changing the default `outliers_param` value of `1.5` to any integer or float of your choice.
+
 ### outlier_param
+
+! Recommended not to change default value
+
+You can **customize** the outlier bounds by changing the default `outliers_param` value of `1.5` to any integer or float of your choice.
 
 ### logfile
 
+Defines whether a logfile should be generated while the AutoClean process runs. If set to `True`, it will create the file `autoclean.log` in your current working directory.
+
+You can view a [sample logfile here](https://github.com/elisemercury/AutoClean/blob/main/AutoClean/autoclean.log).
+
 ### verbose
+
+Defined whether the logfile output should be shown on the console while the AutoClean process runs. Set to `True` if you want to follow the process logs in real-time.
