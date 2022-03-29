@@ -128,7 +128,7 @@ You can **customize** the outlier bounds by changing the default `outliers_param
 
 ### logfile
 
-Defines whether a logfile should be generated while the AutoClean process runs. If set to `True`, it will create the file `autoclean.log` in your current working directory.
+Defines whether a logfile should be generated while the AutoClean process runs. If set to `True`, it will create a `autoclean.log` file in your current working directory.
 
 You can view a [sample logfile here](https://github.com/elisemercury/AutoClean/blob/main/AutoClean/autoclean.log).
 

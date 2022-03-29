@@ -311,11 +311,11 @@ class Outliers:
                 logger.debug('Deletion of {} outliers succeeded for feature "{}"', counter, feature)
         return df
 
-    def _compute_bounds(self, df, col):
+    def _compute_bounds(self, df, feature):
         # function that computes the lower and upper bounds for finding outliers in the data
-        colSorted = sorted(df[col])
+        featureSorted = sorted(df[feature])
         
-        q1, q3 = np.percentile(colSorted, [25, 75])
+        q1, q3 = np.percentile(featureSorted, [25, 75])
         iqr = q3 - q1
 
         lb = q1 - (self.outlier_param * iqr) 
@@ -423,9 +423,9 @@ class EncodeCateg:
             cols_categ = set(df.columns) ^ set(df.select_dtypes(include=np.number).columns) 
             # check if all columns should be encoded
             if len(self.encode_categ) == 1:
-                target_cols = cols_categ
+                target_cols = cols_categ # encode ALL columns
             else:
-                target_cols = self.encode_categ[1]
+                target_cols = self.encode_categ[1] # encode only specific columns
             logger.info('Started encoding categorical features... Method: "AUTO"')
             start = timer()
             for feature in target_cols:
@@ -435,7 +435,6 @@ class EncodeCateg:
                 else:
                     # columns are indexes
                     feature = df.columns[feature]
-                    print(feature)
                 try:
                     # skip encoding of datetime features
                     pd.to_datetime(df[feature])
@@ -467,27 +466,27 @@ class EncodeCateg:
             logger.info('Completed encoding of categorical features in {} seconds', round(end-start, 6))
         return df
 
-    def _to_onehot(self, df, col, limit=10):  
+    def _to_onehot(self, df, feature, limit=10):  
         # function that encodes categorical features to OneHot encodings    
-        one_hot = pd.get_dummies(df[col], prefix=col)
+        one_hot = pd.get_dummies(df[feature], prefix=feature)
         if one_hot.shape[1] > limit:
-            logger.warning('ONEHOT encoding for feature "{}" creates {} new features. Consider LABEL encoding instead.', col, one_hot.shape[1])
+            logger.warning('ONEHOT encoding for feature "{}" creates {} new features. Consider LABEL encoding instead.', feature, one_hot.shape[1])
         # join the encoded df
         df = df.join(one_hot)
         return df
 
-    def _to_label(self, df, col):
+    def _to_label(self, df, feature):
         # function that encodes categorical features to label encodings 
         le = preprocessing.LabelEncoder()
 
-        df[col + '_lab'] = le.fit_transform(df[col].values)
+        df[feature + '_lab'] = le.fit_transform(df[feature].values)
         mapping = dict(zip(le.classes_, range(len(le.classes_))))
         
         for key in mapping:
             try:
                 if isnan(key):               
                     replace = {mapping[key] : key }
-                    df[col].replace(replace, inplace=True)
+                    df[feature].replace(replace, inplace=True)
             except:
                 pass
         return df
