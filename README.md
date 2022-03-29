@@ -87,23 +87,23 @@ AutoClean(dataset, missing_num='auto', missing_categ='auto', encode_categ=['auto
 
 Defines how **numerical** missing values in the data are handled. Missing values can be predicted, imputed or deleted. When set to `auto`, AutoClean first attempts to predict the missing values with **Linear Regression**, and the values that could not be predicted are **imputed with K-NN**.
 
-You can specify the handling method by setting `missing_num` to: `'linreg'`, `'knn'`, `'mean'`, `'median'`, `'most_frequent'` or `'delete'`.
+You can specify the handling method by setting `missing_num` to: `'linreg'`, `'knn'`, `'mean'`, `'median'`, `'most_frequent'`, `'delete'` or to `False` if you want to skip this step.
 
 ### missing_categ
 
 Defines how **categorical** missing values in the data are handled. Missing values can be predicted, imputed or deleted. When set to `auto`, AutoClean first attempts to predict the missing values with **Logistic Regression**, and the values that could not be predicted are **imputed with K-NN**.
 
-You can specify the handling method by setting `missing_categ` to: `'logreg'`, `'knn'`, `'most_frequent'` or `'delete'`.
+You can specify the handling method by setting `missing_categ` to: `'logreg'`, `'knn'`, `'most_frequent'` or `'delete'` or to `False` if you want to skip this step.
 
 ### extract_datetime
 
 AutoClean can search the data for datetime features, and **extract** the values to separate columns. When set to `s`, it extracts the datetime values up to the seconds i. e. day, month, year, hour, minutes, seconds.
 
-You can set the granularity of the extraction manually with `D` for day, `M` for month, `Y` for year, `h` for hour, `m` for minutes. 
+You can set the granularity of the extraction manually with `D` for day, `M` for month, `Y` for year, `h` for hour, `m` for minutes or to `False` if you want to skip this step. 
 
 ### outliers
 
-Defines how **outliers** in the data are handled. Outliers can be manipulated with two different methods: winsorization or deletion. You can specfiy the method by setting `outliers` to `winz` for winzorization, and `delete`for deletion.
+Defines how **outliers** in the data are handled. Outliers can be manipulated with two different methods: winsorization or deletion. You can specfiy the method by setting `outliers` to `winz` for winzorization, `delete`for deletion or to `False` if you want to skip this step.
 
 *When are outliers considered to be outliers?*  
 Oberservations are considered outliers if they are outside the following bounds:
