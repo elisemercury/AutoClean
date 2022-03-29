@@ -4,14 +4,13 @@
 ![PyPI status](https://img.shields.io/pypi/status/py-AutoClean)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/py-AutoClean)
 ![PyPI - License](https://img.shields.io/pypi/l/py-AutoClean)
-![Medium](https://img.shields.io/badge/-Medium-000000?logo=Medium&logoColor=white)
 
 **AutoClean automates data preprocessing & cleaning for your next Data Science project in Python.**
 
 ```python
 pip install py-AutoClean
 ```
-:thought_balloon: Read more on how the algorithm of AutoClean works in my Medium article [Automated Data Cleaning with Python](link).
+:thought_balloon: Read more on the AutoClean algorithm in my Medium article [Automated Data Cleaning with Python](link).
 
 ---
 
