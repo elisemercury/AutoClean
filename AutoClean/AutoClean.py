@@ -106,6 +106,7 @@ class AutoClean:
             
     def _clean_data(self, df, input_data):
         # function for starting the autoclean process
+        df = df.reset_index(drop=True)
         df = MissingValues.handle(self, df)
         df = Outliers.handle(self, df)    
         df = Adjust.convert_datetime(self, df) 
