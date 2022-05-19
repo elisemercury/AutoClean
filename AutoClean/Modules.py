@@ -261,7 +261,7 @@ class Outliers:
 
             if self.outliers == 'winz':  
                 df = Outliers._winsorization(self, df)
-            elif self.ourliers == 'delete':
+            elif self.outliers == 'delete':
                 df = Outliers._delete(self, df)
             
             end = timer()
