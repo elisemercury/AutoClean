@@ -78,7 +78,7 @@ AutoClean(dataset, missing_num='auto', missing_categ='auto', encode_categ=['auto
 | ------ | :---: | :---: | ------ | 
 | missing_num | `str` | `'auto'` | `linreg`, `knn`, `mean`, `median`, `most_frequent`, `delete`, `False` |
 | missing_categ | `str` | `'auto'` | `logreg`, `knn`, `most_frequent`, `delete`, `False` |
-| missing_categ | `list` | `['auto']` | `['onehot']`, `['label']`, `False` ; to encode only specific columns add a list of column names or indexes: `['auto', ['col1', 2]]` |
+| encode_categ | `list` | `['auto']` | `['onehot']`, `['label']`, `False` ; to encode only specific columns add a list of column names or indexes: `['auto', ['col1', 2]]` |
 | extract_datetime | `str` | `'s'` | `D`, `M`, `Y`, `h`, `m`, `False` |
 | outliers | `str` | `'winz'` | `delete`|
 | outlier_param | `int`, `float` | `1.5` | any int or float, `False` |
