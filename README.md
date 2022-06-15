@@ -10,6 +10,7 @@
 ```python
 pip install py-AutoClean
 ```
+
 :thought_balloon: Read more on the AutoClean algorithm in my **Medium** article [Automated Data Cleaning with Python](https://eliselandman.medium.com/automated-data-cleaning-with-python-94d44d854423).
 
 View AutoClean on [PyPi](https://pypi.org/project/py-AutoClean/).
@@ -76,12 +77,12 @@ AutoClean(dataset, missing_num='auto', missing_categ='auto', encode_categ=['auto
 
 | Parameter | Type | Default Value | Other Values |
 | ------ | :---: | :---: | ------ | 
-| missing_num | `str` | `'auto'` | `linreg`, `knn`, `mean`, `median`, `most_frequent`, `delete`, `False` |
-| missing_categ | `str` | `'auto'` | `logreg`, `knn`, `most_frequent`, `delete`, `False` |
+| missing_num | `str` | `'auto'` | `'linreg'`, `'knn'`, `'mean'`, `'median'`, `'most_frequent'`, `'delete'`, `False` |
+| missing_categ | `str` | `'auto'` | `'logreg'`, `'knn'`, `'most_frequent'`, `'delete'`, `False` |
 | encode_categ | `list` | `['auto']` | `['onehot']`, `['label']`, `False` ; to encode only specific columns add a list of column names or indexes: `['auto', ['col1', 2]]` |
-| extract_datetime | `str` | `'s'` | `D`, `M`, `Y`, `h`, `m`, `False` |
-| outliers | `str` | `'winz'` | `delete`|
-| outlier_param | `int`, `float` | `1.5` | any int or float, `False` |
+| extract_datetime | `str` | `'s'` | `'D'`, `'M'`, `'Y'`, `'h'`, `'m'`, `False` |
+| outliers | `str` | `'winz'` | `'delete'`|
+| outlier_param | `int`, `float` | `1.5` | any int or float, `False` (recommended not to change default) |
 | logfile | `bool` | `True` | `False` |
 | verbose | `bool` | `False` | `True` |
 
@@ -97,15 +98,29 @@ Defines how **categorical** missing values in the data are handled. Missing valu
 
 You can specify the handling method by setting `missing_categ` to: `'logreg'`, `'knn'`, `'most_frequent'`, `'delete'` or to `False` if you want to skip this step.
 
+### encode_categ
+
+Defines how **categorical** values should be encoded. Categorical values can be onehot- or label-encoded. 
+
+The parameter must be handed as Python `list` type. When set to `['auto']`, AutoClean:
+
+* onehot-encodes features that have **less than 10 unique data values**
+* label-encodes features that have **less than 20 unique data values**
+* does not encode feature having **more than 20 unqiue data values**
+
+You can specify the encoding method manually by setting `encode_categ` to `['onehot']` or `['label']`. By default, AutoClean will encode all categorical features. You can specify which features to encode by giving the column names or indexes as parameter, for example  `['onehot', ['column_1', 2]]` - this will onehot-encode the column with column name 'column_1' and the column with index '2'.
+
+Set `encode_categ` to `False` to skip categorical encoding.
+
 ### extract_datetime
 
-AutoClean can search the data for datetime features, and **extract** the values to separate columns. When set to `s`, it extracts the datetime values up to the seconds i. e. day, month, year, hour, minutes, seconds.
+AutoClean can search the data for datetime features, and **extract** the values to separate columns. When set to `'s'`, it extracts the datetime values up to the seconds i. e. day, month, year, hour, minutes, seconds.
 
-You can set the granularity of the extraction manually by setting `extract_datetime`to `D` for day, `M` for month, `Y` for year, `h` for hour, `m` for minutes or to `False` if you want to skip this step. 
+You can set the granularity of the extraction manually by setting `extract_datetime` to `'D'` for day, `'M'` for month, `'Y'` for year, `'h'` for hour, `'m'` for minutes or to `False` if you want to skip this step. 
 
 ### outliers
 
-Defines how **outliers** in the data are handled. Outliers can be manipulated with two different methods: winsorization or deletion. You can specfiy the method by setting `outliers` to `winz` for winzorization, `delete`for deletion or to `False` if you want to skip this step.
+Defines how **outliers** in the data are handled. Outliers can be manipulated with two different methods: winsorization or deletion. You can specfiy the method by setting `'outliers'` to `'winz'` for winzorization, `'delete'` for deletion or to `False` if you want to skip this step.
 
 *When are outliers considered to be outliers?*  
 Oberservations are considered outliers if they are outside the following bounds:
