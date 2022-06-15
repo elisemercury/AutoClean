@@ -489,4 +489,23 @@ class EncodeCateg:
                     df[feature].replace(replace, inplace=True)
             except:
                 pass
-        return df          
+        return df  
+
+class Duplicates:
+
+    def handle(self, df):
+        if self.duplicates:
+            logger.info('Started handling of duplicates... Method: "{}"', str(self.duplicates).upper())
+            start = timer()
+            original = df.shape()
+            try:
+                df.drop_duplicates(inplace=True, ignore_index=False)
+                new = df.shape()
+                count = original - new
+                if count != 0:
+                    logger.info('Deletion of {} duplicate(s) successfull', str(self.duplicates).upper())
+                end = timer()
+                logger.info('Completed handling of duplicate(s) in {} seconds', round(end-start, 6))
+
+            except:
+                logger.warning('Handling of duplicates failed')         
