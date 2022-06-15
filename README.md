@@ -134,13 +134,13 @@ where
 
 As soon as a value is below the lower or upper bound, the chosen outlier handling method is applied i. e. either winsorization, meaning it will be replaced by the respective lower or upper bound, or the observation will be deleted.
 
-You can **customize** the outlier bounds by changing the default `outlier_param` value of `1.5` to any integer or float of your choice.
+You can **customize** the outlier bounds by changing the default `outlier_param` value of `1.5` to any integer or float of your choice. **It is not recommended to change the `outlier_param` value!**
 
 ### outlier_param
 
 ! Recommended not to change default value
 
-You can **customize** the outlier bounds by changing the default `outlier_param` value of `1.5` to any integer or float of your choice.
+You can **customize** the outlier bounds by changing the default `outlier_param` value of `1.5` to any integer or float of your choice. **It is not recommended to change the `outlier_param` value!**
 
 ### logfile
 
