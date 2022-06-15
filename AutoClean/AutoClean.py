@@ -6,38 +6,42 @@ from AutoClean.Modules import *
 
 class AutoClean:
 
-    def __init__(self, input_data, missing_num='auto', missing_categ='auto', encode_categ=['auto'], extract_datetime='s', outliers='winz', outlier_param=1.5, logfile=True, verbose=False):  
+    def __init__(self, input_data, duplicates='auto', missing_num='auto', missing_categ='auto', encode_categ=['auto'], extract_datetime='s', outliers='winz', outlier_param=1.5, logfile=True, verbose=False):  
         '''
         input_data (dataframe)..........Pandas dataframe
+        duplicates (str)................define if duplicates in the data should be handled
+                                        duplicates are rows where all features are identical
+                                        'auto' = automated handling, deletes all copies of duplicates except one
+                                        False = skips this step
         missing_num (str)...............define how NUMERICAL missing values are handled
                                         'auto' = automated handling
                                         'linreg' = uses Linear Regression for predicting missing values
                                         'knn' = uses K-NN algorithm for imputation
                                         'mean','median' or 'most_frequent' = uses mean/median/mode imputatiom
                                         'delete' = deletes observations with missing values
-                                        'False' = skips this step
+                                        False = skips this step
         missing_categ (str).............define how CATEGORICAL missing values are handled
                                         'auto' = automated handling
                                         'logreg' = uses Logistic Regression for predicting missing values
                                         'knn' = uses K-NN algorithm for imputation
                                         'most_frequent' = uses mode imputatiom
                                         'delete' = deletes observations with missing values
-                                        'False' = skips this step
+                                        False = skips this step
         encode_categ (list).............encode CATEGORICAL features, takes a list as input
                                         ['auto'] = automated encoding
                                         ['onehot'] = one-hot-encode all CATEGORICAL features
                                         ['label'] = label-encode all categ. features
                                         to encode only specific features add the column name or index: ['onehot', ['col1', 2]]
-                                        'False' = skips this step
+                                        False = skips this step
         extract_datetime (str)..........define whether DATETIME type features should be extracted into separate features
                                         to define granularity set to 'D'= day, 'M'= month, 'Y'= year, 'h'= hour, 'm'= minute or 's'= second
-                                        'False' = skips this step
+                                        False = skips this step
         outliers (str)..................define how outliers are handled
                                         'winz' = replaces outliers through winsorization
                                         'delete' = deletes observations containing outliers
                                         oberservations are considered outliers if they are outside the lower and upper bound [Q1-1.5*IQR, Q3+1.5*IQR], where IQR is the interquartile range
                                         to set a custom multiplier use the 'outlier_param' parameter
-                                        'False' = skips this step
+                                        False = skips this step
         outlier_param (int, float)......! recommended not to change default value
                                         define the multiplier for the outlier bounds
         logfile (bool)..................define whether to create a logile during the AutoClean process
@@ -50,6 +54,7 @@ class AutoClean:
         
         output_data = input_data.copy()
     
+        self.duplicates = duplicates
         self.missing_num = missing_num
         self.missing_categ = missing_categ
         self.outliers = outliers
@@ -80,6 +85,8 @@ class AutoClean:
         
         if type(df) != pd.core.frame.DataFrame:
             raise ValueError('Invalid value for "df" parameter.')
+        if self.duplicates not in [False, 'auto']:
+            raise ValueError('Invalid value for "duplicates" parameter.')
         if self.missing_num not in [False, 'auto', 'knn', 'mean', 'median', 'most_frequent', 'delete']:
             raise ValueError('Invalid value for "missing_num" parameter.')
         if self.missing_categ not in [False, 'auto', 'knn', 'most_frequent', 'delete']:
@@ -107,6 +114,7 @@ class AutoClean:
     def _clean_data(self, df, input_data):
         # function for starting the autoclean process
         df = df.reset_index(drop=True)
+        df = Duplicates.handle(self, df)
         df = MissingValues.handle(self, df)
         df = Outliers.handle(self, df)    
         df = Adjust.convert_datetime(self, df) 
