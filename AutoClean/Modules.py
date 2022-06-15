@@ -20,7 +20,7 @@ class MissingValues:
 
     def handle(self, df, _n_neighbors=3):
         # function for handling missing values in the data
-        logger.info('Started handling of missing values...', self.missing_num.upper())
+        logger.info('Started handling of missing values...', str(self.missing_num).upper())
         start = timer()
         self.count_missing = df.isna().sum().sum()
 
@@ -30,7 +30,7 @@ class MissingValues:
             df.reset_index(drop=True)
             
             if self.missing_num: # numeric data
-                logger.info('Started handling of NUMERICAL missing values... Method: "{}"', self.missing_num.upper())
+                logger.info('Started handling of NUMERICAL missing values... Method: "{}"', str(self.missing_num).upper())
                 # automated handling
                 if self.missing_num == 'auto': 
                     self.missing_num = 'linreg'
@@ -57,7 +57,7 @@ class MissingValues:
                     logger.debug('Deletion of {} NUMERIC missing value(s) succeeded', self.count_missing-df.isna().sum().sum())      
 
             if self.missing_categ: # categorical data
-                logger.info('Started handling of CATEGORICAL missing values... Method: "{}"', self.missing_categ.upper())
+                logger.info('Started handling of CATEGORICAL missing values... Method: "{}"', str(self.missing_categ).upper())
                 # automated handling
                 if self.missing_categ == 'auto':
                     self.missing_categ = 'logreg'
@@ -105,9 +105,9 @@ class MissingValues:
                             else:
                                 df[feature] = df_imputed
                             if counter != 0:
-                                logger.debug('{} imputation of {} value(s) succeeded for feature "{}"', self.missing_num.upper(), counter, feature)
+                                logger.debug('{} imputation of {} value(s) succeeded for feature "{}"', str(self.missing_num).upper(), counter, feature)
                         except:
-                            logger.warning('{} imputation failed for feature "{}"', self.missing_num.upper(), feature)
+                            logger.warning('{} imputation failed for feature "{}"', str(self.missing_num).upper(), feature)
         else:
             # categorical features
             for feature in df.columns:
@@ -132,7 +132,7 @@ class MissingValues:
                             if counter != 0:
                                 logger.debug('{} imputation of {} value(s) succeeded for feature "{}"', self.missing_categ.upper(), counter, feature)
                         except:
-                            logger.warning('{} imputation failed for feature "{}"', self.missing_categ.upper(), feature)
+                            logger.warning('{} imputation failed for feature "{}"', str(self.missing_categ).upper(), feature)
         return df
 
     def _lin_regression_impute(self, df, model):
@@ -256,7 +256,7 @@ class Outliers:
     def handle(self, df):
         # function for handling of outliers in the data
         if self.outliers:
-            logger.info('Started handling of outliers... Method: "{}"', self.outliers.upper())
+            logger.info('Started handling of outliers... Method: "{}"', str(self.outliers).upper())
             start = timer()  
 
             if self.outliers == 'winz':  
@@ -426,7 +426,7 @@ class EncodeCateg:
                 target_cols = cols_categ # encode ALL columns
             else:
                 target_cols = self.encode_categ[1] # encode only specific columns
-            logger.info('Started encoding categorical features... Method: "AUTO"')
+            logger.info('Started encoding categorical features... Method: "{}"', self.encode_categ[0])
             start = timer()
             for feature in target_cols:
                 if feature in cols_categ:
@@ -456,12 +456,12 @@ class EncodeCateg:
 
                         elif self.encode_categ[0] == 'onehot':
                             df = EncodeCateg._to_onehot(df, feature)
-                            logger.debug('Encoding to {} succeeded for feature "{}"', self.encode_categ[0].upper(), feature)
+                            logger.debug('Encoding to {} succeeded for feature "{}"', str(self.encode_categ[0]).upper(), feature)
                         elif self.encode_categ[0] == 'label':
                             df = EncodeCateg._to_label(df, feature)
-                            logger.debug('Encoding to {} succeeded for feature "{}"', self.encode_categ[0].upper(), feature)      
+                            logger.debug('Encoding to {} succeeded for feature "{}"', str(self.encode_categ[0]).upper(), feature)      
                     except:
-                        logger.warning('Encoding to {} failed for feature "{}"', self.encode_categ[0].upper(), feature)    
+                        logger.warning('Encoding to {} failed for feature "{}"', str(self.encode_categ[0]).upper(), feature)    
             end = timer()
             logger.info('Completed encoding of categorical features in {} seconds', round(end-start, 6))
         return df
