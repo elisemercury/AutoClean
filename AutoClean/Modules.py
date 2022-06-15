@@ -426,7 +426,7 @@ class EncodeCateg:
                 target_cols = cols_categ # encode ALL columns
             else:
                 target_cols = self.encode_categ[1] # encode only specific columns
-            logger.info('Started encoding categorical features... Method: "{}"', self.encode_categ[0])
+            logger.info('Started encoding categorical features... Method: "{}"', str(self.encode_categ[0]).upper())
             start = timer()
             for feature in target_cols:
                 if feature in cols_categ:
@@ -489,4 +489,4 @@ class EncodeCateg:
                     df[feature].replace(replace, inplace=True)
             except:
                 pass
-        return df
+        return df          
