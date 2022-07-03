@@ -72,8 +72,9 @@ In some cases, the default settings of AutoClean might not optimally fit your da
 It has the following adjustable parameters, for which the options and descriptions can be found below:
 
 ````python
-AutoClean(dataset, mode='auto', missing_num='auto', missing_categ='auto', encode_categ=['auto'],     
-          extract_datetime='s', outliers='winz', outlier_param=1.5, logfile=True, verbose=False)
+AutoClean(dataset, mode='auto', missing_num=False, missing_categ=False, encode_categ=False,     
+          extract_datetime=False, outliers=False, outlier_param=1.5, 
+          logfile=True, verbose=False)
 ````
 
 | Parameter | Type | Default Value | Other Values |
@@ -94,8 +95,8 @@ AutoClean(dataset, mode='auto', missing_num='auto', missing_categ='auto', encode
 
 Defines in which mode AutoClean will run:
 
-* Automated processing (mode =`'auto'`): the data will be analyzed and cleaned automatically, by being passed through all the steps in the pipeline. All the parameters are set to = `'auto'`.
-* Manual processing (mode =`'manual'`): you can manually define the processing steps that AutoClean will perform. All the parameters are set to `False`, except the ones that you defone individually.
+* Automated processing (`mode` = `'auto'`): the data will be analyzed and cleaned automatically, by being passed through all the steps in the pipeline. All the parameters are set to = `'auto'`.
+* Manual processing (`mode` = `'manual'`): you can manually define the processing steps that AutoClean will perform. All the parameters are set to `False`, except the ones that you defone individually.
 
 For example, you can choose to only handle outliers in your data, and skip all other processing steps by using::
 

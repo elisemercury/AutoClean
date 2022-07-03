@@ -1,2 +1,2 @@
-include modules.py
-include version.py
+include autoclean/modules.py
+include autoclean/version.py
