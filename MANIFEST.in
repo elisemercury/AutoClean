@@ -1,1 +1,2 @@
-include Modules.py
+include modules.py
+include version.py
