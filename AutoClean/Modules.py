@@ -101,8 +101,6 @@ class MissingValues:
                     if df[feature].isna().sum().sum() != 0:
                         try:
                             df_imputed = pd.DataFrame(imputer.fit_transform(np.array(df[feature]).reshape(-1, 1)))
-
-                            #counter1 = sum(1 for i, j in zip(list(df_imputed[feature]), list(df[feature])) if i != j)
                             counter = df[feature].isna().sum().sum() - df_imputed.isna().sum().sum()
 
                             if (df[feature].fillna(-9999) % 1  == 0).all():
@@ -120,8 +118,6 @@ class MissingValues:
             # categorical features
             for feature in df.columns:
                 if feature not in cols_num:
-                    #if feature == 'datetime':
-                        # here it finds 6 whereas there are only 4
                     if df[feature].isna().sum()!= 0:
                         try:
                             mapping = dict()
@@ -132,10 +128,12 @@ class MissingValues:
                             df_imputed = pd.DataFrame(imputer.fit_transform(np.array(df[feature]).reshape(-1, 1)), columns=[feature])    
                             counter = sum(1 for i, j in zip(list(df_imputed[feature]), list(df[feature])) if i != j)
 
+                            # round to integers before mapping back to original values
                             df[feature] = df_imputed
                             df[feature] = df[feature].round()
                             df[feature] = df[feature].astype('Int64')  
 
+                            # map values back to original
                             mappings_inv = {v: k for k, v in mapping[feature].items()}
                             df[feature] = df[feature].map(mappings_inv)
                             if counter != 0:
@@ -151,7 +149,7 @@ class MissingValues:
         for feature in df.columns:
             if feature not in cols_num:
                 # create label mapping for categorical feature values
-                mappings = {k: i for i, k in enumerate(df[feature])} #.dropna().unique(), 0)}
+                mappings = {k: i for i, k in enumerate(df[feature])}
                 mapping[feature] = mappings
                 df[feature] = df[feature].map(mapping[feature])
         for feature in cols_num: 
