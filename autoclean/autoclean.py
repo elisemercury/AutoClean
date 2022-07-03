@@ -50,8 +50,7 @@ class AutoClean:
                                         oberservations are considered outliers if they are outside the lower and upper bound [Q1-1.5*IQR, Q3+1.5*IQR], where IQR is the interquartile range
                                         to set a custom multiplier use the 'outlier_param' parameter
                                         False = skips this step
-        outlier_param (int, float)......! recommended not to change default value
-                                        define the multiplier for the outlier bounds
+        outlier_param (int, float)......define the multiplier for the outlier bounds
         logfile (bool)..................define whether to create a logile during the AutoClean process
                                         logfile will be saved in working directory as "autoclean.log"
         verbose (bool)..................define whether AutoClean logs will be printed in console
