@@ -1,14 +1,21 @@
+# https://github.com/elisemercury/AutoClean
+
 import os
 import sys
+from timeit import default_timer as timer
 import pandas as pd
 from loguru import logger
-from AutoClean.Modules import *
+from autoclean.modules import *
+from autoclean.version import __version__
 
 class AutoClean:
 
-    def __init__(self, input_data, duplicates='auto', missing_num='auto', missing_categ='auto', encode_categ=['auto'], extract_datetime='s', outliers='winz', outlier_param=1.5, logfile=True, verbose=False):  
+    def __init__(self, input_data, mode='manual', duplicates=False, missing_num=False, missing_categ=False, encode_categ=False, extract_datetime=False, outliers=False, outlier_param=1.5, logfile=True, verbose=False):  
         '''
         input_data (dataframe)..........Pandas dataframe
+        mode (str)......................define in which mode you want to run AutoClean
+                                        'manual' = lets you choose which parameters/cleaning steps you want to perform
+                                        'auto' = sets all parameters to 'auto' and let AutoClean do the data cleaning automatically
         duplicates (str)................define if duplicates in the data should be handled
                                         duplicates are rows where all features are identical
                                         'auto' = automated handling, deletes all copies of duplicates except one
@@ -48,12 +55,17 @@ class AutoClean:
                                         logfile will be saved in working directory as "autoclean.log"
         verbose (bool)..................define whether AutoClean logs will be printed in console
         
-        OUTPUT (dataframe)..............a cleaned Pandas dataframe, accessible through the 'output_data' instance
-        '''    
+        OUTPUT (dataframe)..............a cleaned Pandas dataframe, accessible through the 'output' instance
+        '''
+        start = timer()
         self._initialize_logger(verbose, logfile)
         
         output_data = input_data.copy()
-    
+
+        if mode == 'auto':
+            duplicates, missing_num, missing_categ, outliers, encode_categ, extract_datetime = 'auto', 'auto', 'auto', 'winz', ['auto'], 's'
+
+        self.mode = mode
         self.duplicates = duplicates
         self.missing_num = missing_num
         self.missing_categ = missing_categ
@@ -66,9 +78,35 @@ class AutoClean:
         self._validate_params(output_data, verbose, logfile)
         
         # initialize our class and start the autoclean process
-        self.output = self._clean_data(output_data, input_data)
+        self.output = self._clean_data(output_data, input_data)  
 
-        print('Logfile saved to:', os.path.join(os.getcwd(), 'autoclean.log'))
+        end = timer()
+        logger.info('AutoClean process completed in {} seconds', round(end-start, 6))
+
+        if not verbose:
+            print('AutoClean process completed in', round(end-start, 6), 'seconds')
+        if logfile:
+            print('Logfile saved to:', os.path.join(os.getcwd(), 'autoclean.log'))
+
+    def help():
+        # function that outputs some basic usage information 
+        help_msg = f"""
+        **** Welcome to AutoClean! {__version__} ****
+
+        Run AutoClean by selecting your input data (Pandas dataframe) and setting the 'mode' parameter to:
+
+        \t* 'manual' (default) or
+        \t* 'auto'
+
+        If set to 'auto', AutoClean will start the automated cleaning process. 
+        If set to 'manual', you can customize your AutoClean pipeline by defining some of the optional parameters:
+
+        \tduplicates, missing_num, missing_categ, outliers, encode_categ, extract_datetime
+
+        📋 For detailed documentation and usage guide, please visit the official GitHub Repo: https://github.com/elisemercury/AutoClean
+        """     
+        print(help_msg)
+        return
 
     def _initialize_logger(self, verbose, logfile):
         # function for initializing the logging process
@@ -85,22 +123,29 @@ class AutoClean:
         
         if type(df) != pd.core.frame.DataFrame:
             raise ValueError('Invalid value for "df" parameter.')
+        if self.mode not in ['manual', 'auto']:
+            AutoClean.help()
+            raise ValueError('Invalid value for "mode" parameter.')
         if self.duplicates not in [False, 'auto']:
             raise ValueError('Invalid value for "duplicates" parameter.')
         if self.missing_num not in [False, 'auto', 'knn', 'mean', 'median', 'most_frequent', 'delete']:
             raise ValueError('Invalid value for "missing_num" parameter.')
         if self.missing_categ not in [False, 'auto', 'knn', 'most_frequent', 'delete']:
             raise ValueError('Invalid value for "missing_categ" parameter.')
-        if self.outliers not in [False, 'winz', 'delete']:
+        if self.outliers not in [False, 'auto', 'winz', 'delete']:
             raise ValueError('Invalid value for "outliers" parameter.')
-        if len(self.encode_categ) > 2 and not isinstance(self.encode_categ, list) and self.encode_categ[0] not in [False, 'auto', 'onehot', 'label']:
-            raise ValueError('Invalid value for "encode_categ" parameter.')
-        if len(self.encode_categ) == 2:
-            if not isinstance(self.encode_categ[1], list):
+        if isinstance(self.encode_categ, list):
+            if len(self.encode_categ) > 2 and self.encode_categ[0] not in ['auto', 'onehot', 'label']:
+                raise ValueError('Invalid value for "encode_categ" parameter.')
+            if len(self.encode_categ) == 2:
+                if not isinstance(self.encode_categ[1], list):
+                    raise ValueError('Invalid value for "encode_categ" parameter.')
+        else:
+            if not self.encode_categ in ['auto', False]:
                 raise ValueError('Invalid value for "encode_categ" parameter.')
         if not isinstance(self.outlier_param, int) and not isinstance(self.outlier_param, float):
             raise ValueError('Invalid value for "outlier_param" parameter.')  
-        if self.extract_datetime not in [False, 'D','M','Y','h','m','s']:
+        if self.extract_datetime not in [False, 'auto', 'D','M','Y','h','m','s']:
             raise ValueError('Invalid value for "extract_datetime" parameter.')  
         if not isinstance(verbose, bool):
             raise ValueError('Invalid value for "verbose" parameter.')  
@@ -108,7 +153,6 @@ class AutoClean:
             raise ValueError('Invalid value for "logfile" parameter.')  
 
         logger.info('Completed validation of input parameters')
-
         return
             
     def _clean_data(self, df, input_data):
@@ -120,5 +164,4 @@ class AutoClean:
         df = Adjust.convert_datetime(self, df) 
         df = EncodeCateg.handle(self, df)     
         df = Adjust.round_values(self, df, input_data)
-        logger.info('AutoClean completed successfully')
-        return df        
+        return df 

@@ -20,88 +20,96 @@ class MissingValues:
 
     def handle(self, df, _n_neighbors=3):
         # function for handling missing values in the data
-        logger.info('Started handling of missing values...', str(self.missing_num).upper())
-        start = timer()
-        self.count_missing = df.isna().sum().sum()
+        if self.missing_num or self.missing_categ:
+            logger.info('Started handling of missing values...', str(self.missing_num).upper())
+            start = timer()
+            self.count_missing = df.isna().sum().sum()
 
-        if self.count_missing != 0:
-            logger.info('Found a total of {} missing value(s)', self.count_missing)
-            df = df.dropna(how='all')
-            df.reset_index(drop=True)
-            
-            if self.missing_num: # numeric data
-                logger.info('Started handling of NUMERICAL missing values... Method: "{}"', str(self.missing_num).upper())
-                # automated handling
-                if self.missing_num == 'auto': 
-                    self.missing_num = 'linreg'
-                    lr = LinearRegression()
-                    df = MissingValues._lin_regression_impute(self, df, lr)
-                    self.missing_num = 'knn'
-                    imputer = KNNImputer(n_neighbors=_n_neighbors)
-                    df = MissingValues._impute(self, df, imputer, type='num')
-                # linear regression imputation
-                elif self.missing_num == 'linreg':
-                    lr = LinearRegression()
-                    df = MissingValues._lin_regression_impute(self, df, lr)
-                # knn imputation
-                elif self.missing_num == 'knn':
-                    imputer = KNNImputer(n_neighbors=_n_neighbors)
-                    df = MissingValues._impute(self, df, imputer, type='num')
-                # mean, median or mode imputation
-                elif self.missing_num in ['mean', 'median', 'most_frequent']:
-                    imputer = SimpleImputer(strategy=self.missing_num)
-                    df = MissingValues._impute_missing(self, df, imputer, type='num')
-                # delete missing values
-                elif self.missing_num == 'delete':
-                    df = MissingValues._delete(self, df, type='num')
-                    logger.debug('Deletion of {} NUMERIC missing value(s) succeeded', self.count_missing-df.isna().sum().sum())      
+            if self.count_missing != 0:
+                logger.info('Found a total of {} missing value(s)', self.count_missing)
+                df = df.dropna(how='all')
+                df.reset_index(drop=True)
+                
+                if self.missing_num: # numeric data
+                    logger.info('Started handling of NUMERICAL missing values... Method: "{}"', str(self.missing_num).upper())
+                    # automated handling
+                    if self.missing_num == 'auto': 
+                        self.missing_num = 'linreg'
+                        lr = LinearRegression()
+                        df = MissingValues._lin_regression_impute(self, df, lr)
+                        self.missing_num = 'knn'
+                        imputer = KNNImputer(n_neighbors=_n_neighbors)
+                        df = MissingValues._impute(self, df, imputer, type='num')
+                    # linear regression imputation
+                    elif self.missing_num == 'linreg':
+                        lr = LinearRegression()
+                        df = MissingValues._lin_regression_impute(self, df, lr)
+                    # knn imputation
+                    elif self.missing_num == 'knn':
+                        imputer = KNNImputer(n_neighbors=_n_neighbors)
+                        df = MissingValues._impute(self, df, imputer, type='num')
+                    # mean, median or mode imputation
+                    elif self.missing_num in ['mean', 'median', 'most_frequent']:
+                        imputer = SimpleImputer(strategy=self.missing_num)
+                        df = MissingValues._impute_missing(self, df, imputer, type='num')
+                    # delete missing values
+                    elif self.missing_num == 'delete':
+                        df = MissingValues._delete(self, df, type='num')
+                        logger.debug('Deletion of {} NUMERIC missing value(s) succeeded', self.count_missing-df.isna().sum().sum())      
 
-            if self.missing_categ: # categorical data
-                logger.info('Started handling of CATEGORICAL missing values... Method: "{}"', str(self.missing_categ).upper())
-                # automated handling
-                if self.missing_categ == 'auto':
-                    self.missing_categ = 'logreg'
-                    lr = LogisticRegression()
-                    df = MissingValues._log_regression_impute(self, df, lr)
-                    self.missing_categ = 'knn'
-                    imputer = KNNImputer(n_neighbors=_n_neighbors)
-                    df = MissingValues._impute(self, df, imputer, type='categ')
-                elif self.missing_categ == 'logreg':
-                    lr = LogisticRegression()
-                    df = MissingValues._log_regression_impute(self, df, lr)
-                # knn imputation
-                elif self.missing_categ == 'knn':
-                    imputer = KNNImputer(n_neighbors=_n_neighbors)
-                    df = MissingValues._impute(self, df, imputer, type='categ')  
-                # mode imputation
-                elif self.missing_categ == 'most_frequent':
-                    imputer = SimpleImputer(strategy=self.missing_categ)
-                    df = MissingValues._impute(self, df, imputer, type='categ')
-                # delete missing values                    
-                elif self.missing_categ == 'delete':
-                    df = MissingValues._delete(self, df, type='categ')
-                    logger.debug('Deletion of {} CATEGORICAL missing value(s) succeeded', self.count_missing-df.isna().sum().sum())
+                if self.missing_categ: # categorical data
+                    logger.info('Started handling of CATEGORICAL missing values... Method: "{}"', str(self.missing_categ).upper())
+                    # automated handling
+                    if self.missing_categ == 'auto':
+                        self.missing_categ = 'logreg'
+                        lr = LogisticRegression()
+                        df = MissingValues._log_regression_impute(self, df, lr)
+                        self.missing_categ = 'knn'
+                        imputer = KNNImputer(n_neighbors=_n_neighbors)
+                        df = MissingValues._impute(self, df, imputer, type='categ')
+                    elif self.missing_categ == 'logreg':
+                        lr = LogisticRegression()
+                        df = MissingValues._log_regression_impute(self, df, lr)
+                    # knn imputation
+                    elif self.missing_categ == 'knn':
+                        imputer = KNNImputer(n_neighbors=_n_neighbors)
+                        df = MissingValues._impute(self, df, imputer, type='categ')  
+                    # mode imputation
+                    elif self.missing_categ == 'most_frequent':
+                        imputer = SimpleImputer(strategy=self.missing_categ)
+                        df = MissingValues._impute(self, df, imputer, type='categ')
+                    # delete missing values                    
+                    elif self.missing_categ == 'delete':
+                        df = MissingValues._delete(self, df, type='categ')
+                        logger.debug('Deletion of {} CATEGORICAL missing value(s) succeeded', self.count_missing-df.isna().sum().sum())
+            else:
+                logger.debug('{} missing values found', self.count_missing)
+            end = timer()
+            logger.info('Completed handling of missing values in {} seconds', round(end-start, 6))  
         else:
-            logger.debug('{} missing values found', self.count_missing)
-        end = timer()
-        logger.info('Completed handling of missing values in {} seconds', round(end-start, 6))
+            logger.info('Skipped handling of missing values')
         return df
 
     def _impute(self, df, imputer, type):
         # function for imputing missing values in the data
         cols_num = df.select_dtypes(include=np.number).columns 
+
         if type == 'num':
             # numerical features
             for feature in df.columns: 
                 if feature in cols_num:
                     if df[feature].isna().sum().sum() != 0:
                         try:
-                            df_imputed = pd.DataFrame(imputer.fit_transform(np.array(df[feature]).reshape(-1, 1)), columns=[feature])
-                            counter = sum(1 for i, j in zip(list(df_imputed[feature]), list(df[feature])) if i != j)
+                            df_imputed = pd.DataFrame(imputer.fit_transform(np.array(df[feature]).reshape(-1, 1)))
+
+                            #counter1 = sum(1 for i, j in zip(list(df_imputed[feature]), list(df[feature])) if i != j)
+                            counter = df[feature].isna().sum().sum() - df_imputed.isna().sum().sum()
+
                             if (df[feature].fillna(-9999) % 1  == 0).all():
-                                # round back to INTs, if original data were INTs
                                 df[feature] = df_imputed
-                                df[feature] = df[feature].astype(int)                                        
+                                # round back to INTs, if original data were INTs
+                                df[feature] = df[feature].round()
+                                df[feature] = df[feature].astype('Int64')                                        
                             else:
                                 df[feature] = df_imputed
                             if counter != 0:
@@ -125,7 +133,8 @@ class MissingValues:
                             counter = sum(1 for i, j in zip(list(df_imputed[feature]), list(df[feature])) if i != j)
 
                             df[feature] = df_imputed
-                            df[feature] = df[feature].astype(int)  
+                            df[feature] = df[feature].round()
+                            df[feature] = df[feature].astype('Int64')  
 
                             mappings_inv = {v: k for k, v in mapping[feature].items()}
                             df[feature] = df[feature].map(mappings_inv)
@@ -142,7 +151,7 @@ class MissingValues:
         for feature in df.columns:
             if feature not in cols_num:
                 # create label mapping for categorical feature values
-                mappings = {k: i for i, k in enumerate(df[feature].dropna().unique(), 0)}
+                mappings = {k: i for i, k in enumerate(df[feature])} #.dropna().unique(), 0)}
                 mapping[feature] = mappings
                 df[feature] = df[feature].map(mapping[feature])
         for feature in cols_num: 
@@ -171,8 +180,8 @@ class MissingValues:
                         if (df[feature].fillna(-9999) % 1  == 0).all():
                             # round back to INTs, if original data were INTs
                             test_df[feature] = test_df[feature].round()
-                            test_df[feature] = test_df[feature].astype(int)
-                            df[feature].update(test_df[feature])                              
+                            test_df[feature] = test_df[feature].astype('Int64')
+                            df[feature].update(test_df[feature])                          
                         else:
                             df[feature].update(test_df[feature])  
                         logger.debug('LINREG imputation of {} value(s) succeeded for feature "{}"', len(pred), feature)
@@ -194,7 +203,7 @@ class MissingValues:
         for feature in df.columns:
             if feature not in cols_num:
                 # create label mapping for categorical feature values
-                mappings = {k: i for i, k in enumerate(df[feature].dropna().unique(), 0)}
+                mappings = {k: i for i, k in enumerate(df[feature])} #.dropna().unique(), 0)}
                 mapping[feature] = mappings
                 df[feature] = df[feature].map(mapping[feature])
 
@@ -220,8 +229,8 @@ class MissingValues:
                         if (df[feature].fillna(-9999) % 1  == 0).all():
                             # round back to INTs, if original data were INTs
                             test_df[feature] = test_df[feature].round()
-                            test_df[feature] = test_df[feature].astype(int)
-                            df[feature].update(test_df[feature])                              
+                            test_df[feature] = test_df[feature].astype('Int64')
+                            df[feature].update(test_df[feature])                             
                         logger.debug('LOGREG imputation of {} value(s) succeeded for feature "{}"', len(pred), feature)
                 except:
                     logger.warning('LOGREG imputation failed for feature "{}"', feature)
@@ -259,13 +268,15 @@ class Outliers:
             logger.info('Started handling of outliers... Method: "{}"', str(self.outliers).upper())
             start = timer()  
 
-            if self.outliers == 'winz':  
+            if self.outliers in ['auto', 'winz']:  
                 df = Outliers._winsorization(self, df)
             elif self.outliers == 'delete':
                 df = Outliers._delete(self, df)
             
             end = timer()
             logger.info('Completed handling of outliers in {} seconds', round(end-start, 6))
+        else:
+            logger.info('Skipped handling of outliers')
         return df     
 
     def _winsorization(self, df):
@@ -338,19 +349,19 @@ class Adjust:
                     try:
                         df['Day'] = pd.to_datetime(df[feature]).dt.day
 
-                        if self.extract_datetime in ['M','Y','h','m','s']:
+                        if self.extract_datetime in ['auto', 'M','Y','h','m','s']:
                             df['Month'] = pd.to_datetime(df[feature]).dt.month
 
-                            if self.extract_datetime in ['Y','h','m','s']:
+                            if self.extract_datetime in ['auto', 'Y','h','m','s']:
                                 df['Year'] = pd.to_datetime(df[feature]).dt.year
 
-                                if self.extract_datetime in ['h','m','s']:
+                                if self.extract_datetime in ['auto', 'h','m','s']:
                                     df['Hour'] = pd.to_datetime(df[feature]).dt.hour
 
-                                    if self.extract_datetime in ['m','s']:
+                                    if self.extract_datetime in ['auto', 'm','s']:
                                         df['Minute'] = pd.to_datetime(df[feature]).dt.minute
 
-                                        if self.extract_datetime in ['s']:
+                                        if self.extract_datetime in ['auto', 's']:
                                             df['Sec'] = pd.to_datetime(df[feature]).dt.second
                         
                         logger.debug('Conversion to DATETIME succeeded for feature "{}"', feature)
@@ -374,51 +385,59 @@ class Adjust:
                     pass
             end = timer()
             logger.info('Completed conversion of DATETIME features in {} seconds', round(end-start, 4))
+        else:
+            logger.info('Skipped datetime feature conversion')
         return df
 
     def round_values(self, df, input_data):
         # function that checks datatypes of features and converts them if necessary
-        logger.info('Started feature type conversion...')
-        start = timer()
-        counter = 0
-        cols_num = df.select_dtypes(include=np.number).columns
-        for feature in cols_num:
-                # check if all values are integers
-                if (df[feature].fillna(-9999) % 1  == 0).all():
-                    try:
-                        # encode FLOATs with only 0 as decimals to INT
-                        df[feature] = df[feature].astype(int)
-                        counter += 1
-                        logger.debug('Conversion to type INT succeeded for feature "{}"', feature)
-                    except:
-                        logger.warning('Conversion to type INT failed for feature "{}"', feature)
-                else:
-                    try:
-                        # round the number of decimals of FLOATs back to original
-                        dec = None
-                        for value in input_data[feature]:
-                            try:
-                                if dec == None:
-                                    dec = str(value)[::-1].find('.')
-                                else:
-                                    if str(value)[::-1].find('.') > dec:
+        if self.duplicates or self.missing_num or self.missing_categ or self.outliers or self.encode_categ or self.extract_datetime:
+            logger.info('Started feature type conversion...')
+            start = timer()
+            counter = 0
+            cols_num = df.select_dtypes(include=np.number).columns
+            for feature in cols_num:
+                    # check if all values are integers
+                    if (df[feature].fillna(-9999) % 1  == 0).all():
+                        try:
+                            # encode FLOATs with only 0 as decimals to INT
+                            df[feature] = df[feature].astype('Int64')
+                            counter += 1
+                            logger.debug('Conversion to type INT succeeded for feature "{}"', feature)
+                        except:
+                            logger.warning('Conversion to type INT failed for feature "{}"', feature)
+                    else:
+                        try:
+                            df[feature] = df[feature].astype(float)
+                            # round the number of decimals of FLOATs back to original
+                            dec = None
+                            for value in input_data[feature]:
+                                try:
+                                    if dec == None:
                                         dec = str(value)[::-1].find('.')
-                            except:
-                                pass
-                        df[feature] = df[feature].round(decimals = dec)
-                        counter += 1
-                        logger.debug('Conversion to type FLOAT succeeded for feature "{}"', feature)
-                    except:
-                        logger.warning('Conversion to type FLOAT failed for feature "{}"', feature)
-        end = timer()
-        logger.info('Completed feature type conversion for {} feature(s) in {} seconds', counter, round(end-start, 6))
+                                    else:
+                                        if str(value)[::-1].find('.') > dec:
+                                            dec = str(value)[::-1].find('.')
+                                except:
+                                    pass
+                            df[feature] = df[feature].round(decimals = dec)
+                            counter += 1
+                            logger.debug('Conversion to type FLOAT succeeded for feature "{}"', feature)
+                        except:
+                            logger.warning('Conversion to type FLOAT failed for feature "{}"', feature)
+            end = timer()
+            logger.info('Completed feature type conversion for {} feature(s) in {} seconds', counter, round(end-start, 6))
+        else:
+            logger.info('Skipped feature type conversion')
         return df
 
 class EncodeCateg:
 
     def handle(self, df):
         # function for encoding of categorical features in the data
-        if self.encode_categ[0]:
+        if self.encode_categ:
+            if not isinstance(self.encode_categ, list):
+                self.encode_categ = ['auto']
             # select non numeric features
             cols_categ = set(df.columns) ^ set(df.select_dtypes(include=np.number).columns) 
             # check if all columns should be encoded
@@ -464,6 +483,8 @@ class EncodeCateg:
                         logger.warning('Encoding to {} failed for feature "{}"', str(self.encode_categ[0]).upper(), feature)    
             end = timer()
             logger.info('Completed encoding of categorical features in {} seconds', round(end-start, 6))
+        else:
+            logger.info('Skipped encoding of categorical features')
         return df
 
     def _to_onehot(self, df, feature, limit=10):  
@@ -497,15 +518,21 @@ class Duplicates:
         if self.duplicates:
             logger.info('Started handling of duplicates... Method: "{}"', str(self.duplicates).upper())
             start = timer()
-            original = df.shape()
+            original = df.shape
             try:
                 df.drop_duplicates(inplace=True, ignore_index=False)
-                new = df.shape()
-                count = original - new
+                df = df.reset_index(drop=True)
+                new = df.shape
+                count = original[0] - new[0]
                 if count != 0:
-                    logger.info('Deletion of {} duplicate(s) successfull', str(self.duplicates).upper())
+                    logger.debug('Deletion of {} duplicate(s) succeeded', count)
+                else:
+                    logger.debug('{} missing values found', count)
                 end = timer()
-                logger.info('Completed handling of duplicate(s) in {} seconds', round(end-start, 6))
+                logger.info('Completed handling of duplicates in {} seconds', round(end-start, 6))
 
             except:
-                logger.warning('Handling of duplicates failed')         
+                logger.warning('Handling of duplicates failed')        
+        else:
+            logger.info('Skipped handling of duplicates')
+        return df 
