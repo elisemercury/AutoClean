@@ -10,12 +10,13 @@ from autoclean.version import __version__
 
 class AutoClean:
 
-    def __init__(self, input_data, mode='manual', duplicates=False, missing_num=False, missing_categ=False, encode_categ=False, extract_datetime=False, outliers=False, outlier_param=1.5, logfile=True, verbose=False):  
+    def __init__(self, input_data, mode='auto', duplicates=False, missing_num=False, missing_categ=False, encode_categ=False, extract_datetime=False, outliers=False, outlier_param=1.5, logfile=True, verbose=False):  
         '''
         input_data (dataframe)..........Pandas dataframe
         mode (str)......................define in which mode you want to run AutoClean
-                                        'manual' = lets you choose which parameters/cleaning steps you want to perform
                                         'auto' = sets all parameters to 'auto' and let AutoClean do the data cleaning automatically
+                                        'manual' = lets you choose which parameters/cleaning steps you want to perform
+                                        
         duplicates (str)................define if duplicates in the data should be handled
                                         duplicates are rows where all features are identical
                                         'auto' = automated handling, deletes all copies of duplicates except one
@@ -95,8 +96,8 @@ class AutoClean:
 
         Run AutoClean by selecting your input data (Pandas dataframe) and setting the 'mode' parameter to:
 
-        \t* 'manual' (default) or
-        \t* 'auto'
+        \t* 'auto' (default) or
+        \t* 'manual'
 
         If set to 'auto', AutoClean will start the automated cleaning process. 
         If set to 'manual', you can customize your AutoClean pipeline by defining some of the optional parameters:
