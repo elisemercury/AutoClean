@@ -24,7 +24,7 @@ It is commonly known among Data Scientists that data cleaning and preprocessing 
 
 AutoClean supports:
 
-:point_right: [ NEW ] Handling of **duplicates**  
+:point_right: **[:tada: NEW]** Handling of **duplicates**  
 :point_right: Various imputation methods for **missing values**  
 :point_right: Handling of **outliers**  
 :point_right: **Encoding** of categorical data (OneHot, Label)  
@@ -90,7 +90,7 @@ AutoClean(dataset, mode='auto', missing_num='auto', missing_categ='auto', encode
 
 ### mode
 
-[ NEW ] with version v1.1.0
+**[ NEW ] with version v1.1.0**
 
 Defines in which mode AutoClean will run:
 
