@@ -24,7 +24,7 @@ It is commonly known among Data Scientists that data cleaning and preprocessing 
 
 AutoClean supports:
 
-:point_right: **[:sparkler: NEW]** Handling of **duplicates**  
+:point_right: Handling of **duplicates** **[ NEW with versiom v1.1.0 ]**
 :point_right: Various imputation methods for **missing values**  
 :point_right: Handling of **outliers**  
 :point_right: **Encoding** of categorical data (OneHot, Label)  
