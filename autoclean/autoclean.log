@@ -1,0 +1,20 @@
+03-07-2022 20:50:11.82 - INFO - Started validation of input parameters...
+03-07-2022 20:50:11.82 - INFO - Completed validation of input parameters
+03-07-2022 20:50:11.82 - INFO - Skipped handling of duplicates
+03-07-2022 20:50:11.82 - INFO - Started handling of missing values...
+03-07-2022 20:50:11.82 - INFO - Found a total of 183 missing value(s)
+03-07-2022 20:50:11.82 - INFO - Started handling of CATEGORICAL missing values... Method: "DELETE"
+03-07-2022 20:50:11.83 - DEBUG - Deletion of 95 CATEGORICAL missing value(s) succeeded
+03-07-2022 20:50:11.83 - INFO - Completed handling of missing values in 0.005795 seconds
+03-07-2022 20:50:11.83 - INFO - Skipped handling of outliers
+03-07-2022 20:50:11.83 - INFO - Skipped datetime feature conversion
+03-07-2022 20:50:11.83 - INFO - Skipped encoding of categorical features
+03-07-2022 20:50:11.83 - INFO - Started feature type conversion...
+03-07-2022 20:50:11.83 - DEBUG - Conversion to type INT succeeded for feature "cylinders"
+03-07-2022 20:50:11.83 - DEBUG - Conversion to type FLOAT succeeded for feature "displacement"
+03-07-2022 20:50:11.83 - DEBUG - Conversion to type INT succeeded for feature "weight"
+03-07-2022 20:50:11.83 - DEBUG - Conversion to type FLOAT succeeded for feature "acceleration"
+03-07-2022 20:50:11.83 - DEBUG - Conversion to type INT succeeded for feature "model.year"
+03-07-2022 20:50:11.83 - DEBUG - Conversion to type INT succeeded for feature "origin"
+03-07-2022 20:50:11.83 - INFO - Completed feature type conversion for 6 feature(s) in 0.006115 seconds
+03-07-2022 20:50:11.83 - INFO - AutoClean process completed in 0.014983 seconds

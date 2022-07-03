@@ -24,6 +24,7 @@ It is commonly known among Data Scientists that data cleaning and preprocessing 
 
 AutoClean supports:
 
+:point_right: Handling of **duplicates** **[ NEW with version v1.1.0 ]**  
 :point_right: Various imputation methods for **missing values**  
 :point_right: Handling of **outliers**  
 :point_right: **Encoding** of categorical data (OneHot, Label)  
@@ -55,13 +56,13 @@ pipeline.output
 As a visual example, the following sample dataset will be passed through the AutoClean pipeline:
 
 <p align="center">
-  <img src="Misc/sample_data.png" width="300" title="Example Output: Duplicate Image Finder">
+  <img src="misc/sample_data.png" width="300" title="Example Output: Duplicate Image Finder">
 </p>
 
  The output of AutoClean looks as following, whereas the various adjustments have been highlighted:
 
  <p align="center">
-  <img src="Misc/sample_data_output.png" width="700" title="Example Output: Duplicate Image Finder">
+  <img src="misc/sample_data_output.png" width="700" title="Example Output: Duplicate Image Finder">
 </p>
 
 ## Adjustable Parameters
@@ -71,20 +72,36 @@ In some cases, the default settings of AutoClean might not optimally fit your da
 It has the following adjustable parameters, for which the options and descriptions can be found below:
 
 ````python
-AutoClean(dataset, missing_num='auto', missing_categ='auto', encode_categ=['auto'],     
+AutoClean(dataset, mode='auto', missing_num='auto', missing_categ='auto', encode_categ=['auto'],     
           extract_datetime='s', outliers='winz', outlier_param=1.5, logfile=True, verbose=False)
 ````
 
 | Parameter | Type | Default Value | Other Values |
 | ------ | :---: | :---: | ------ | 
-| missing_num | `str` | `'auto'` | `'linreg'`, `'knn'`, `'mean'`, `'median'`, `'most_frequent'`, `'delete'`, `False` |
-| missing_categ | `str` | `'auto'` | `'logreg'`, `'knn'`, `'most_frequent'`, `'delete'`, `False` |
-| encode_categ | `list` | `['auto']` | `['onehot']`, `['label']`, `False` ; to encode only specific columns add a list of column names or indexes: `['auto', ['col1', 2]]` |
-| extract_datetime | `str` | `'s'` | `'D'`, `'M'`, `'Y'`, `'h'`, `'m'`, `False` |
-| outliers | `str` | `'winz'` | `'delete'`|
-| outlier_param | `int`, `float` | `1.5` | any int or float, `False` (recommended not to change default) |
+| mode | `str` | `'auto'` | `'manual'` |
+| missing_num | `str` | `False` | `'auto'`, `'linreg'`, `'knn'`, `'mean'`, `'median'`, `'most_frequent'`, `'delete'`, `False` |
+| missing_categ | `str` | `False` | `'auto'`, `'logreg'`, `'knn'`, `'most_frequent'`, `'delete'`, `False` |
+| encode_categ | `list` | `False` | `'auto'`, `['onehot']`, `['label']`, `False` ; to encode only specific columns add a list of column names or indexes: `['auto', ['col1', 2]]` |
+| extract_datetime | `str` | `False` | `'auto'`, `'D'`, `'M'`, `'Y'`, `'h'`, `'m'`, `'s'` |
+| outliers | `str` | `False` | `'auto'`, `'winz'`, `'delete'`|
+| outlier_param | `int`, `float` | `1.5` | any int or float, `False` |
 | logfile | `bool` | `True` | `False` |
 | verbose | `bool` | `False` | `True` |
+
+### mode
+
+**[ NEW ] with version v1.1.0**
+
+Defines in which mode AutoClean will run:
+
+* Automated processing (mode =`'auto'`): the data will be analyzed and cleaned automatically, by being passed through all the steps in the pipeline. All the parameters are set to = `'auto'`.
+* Manual processing (mode =`'manual'`): you can manually define the processing steps that AutoClean will perform. All the parameters are set to `False`, except the ones that you defone individually.
+
+For example, you can choose to only handle outliers in your data, and skip all other processing steps by using::
+
+```python
+pipeline = AutoClean(dataset, mode='manual', outliers='auto')
+```
 
 ### missing_num
 
@@ -146,7 +163,7 @@ You can **customize** the outlier bounds by changing the default `outlier_param`
 
 Defines whether a logfile should be generated while the AutoClean process runs. If set to `True`, it will create a `autoclean.log` file in your current working directory.
 
-You can view a [sample logfile here](https://github.com/elisemercury/AutoClean/blob/main/AutoClean/autoclean.log).
+You can view a [sample logfile here](https://github.com/elisemercury/AutoClean/blob/main/autoclean/autoclean.log).
 
 ### verbose
 
