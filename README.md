@@ -56,13 +56,13 @@ pipeline.output
 As a visual example, the following sample dataset will be passed through the AutoClean pipeline:
 
 <p align="center">
-  <img src="Misc/sample_data.png" width="300" title="Example Output: Duplicate Image Finder">
+  <img src="misc/sample_data.png" width="300" title="Example Output: Duplicate Image Finder">
 </p>
 
  The output of AutoClean looks as following, whereas the various adjustments have been highlighted:
 
  <p align="center">
-  <img src="Misc/sample_data_output.png" width="700" title="Example Output: Duplicate Image Finder">
+  <img src="misc/sample_data_output.png" width="700" title="Example Output: Duplicate Image Finder">
 </p>
 
 ## Adjustable Parameters
@@ -163,7 +163,7 @@ You can **customize** the outlier bounds by changing the default `outlier_param`
 
 Defines whether a logfile should be generated while the AutoClean process runs. If set to `True`, it will create a `autoclean.log` file in your current working directory.
 
-You can view a [sample logfile here](https://github.com/elisemercury/AutoClean/blob/main/AutoClean/autoclean.log).
+You can view a [sample logfile here](https://github.com/elisemercury/AutoClean/blob/main/autoclean/autoclean.log).
 
 ### verbose
 
