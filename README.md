@@ -72,14 +72,14 @@ In some cases, the default settings of AutoClean might not optimally fit your da
 It has the following adjustable parameters, for which the options and descriptions can be found below:
 
 ````python
-AutoClean(dataset, mode='auto', missing_num=False, missing_categ=False, encode_categ=False,     
-          extract_datetime=False, outliers=False, outlier_param=1.5, 
-          logfile=True, verbose=False)
+AutoClean(dataset, mode='auto', duplicates=False, missing_num=False, missing_categ=False, encode_categ=False,     
+          extract_datetime=False, outliers=False, outlier_param=1.5, logfile=True, verbose=False)
 ````
 
 | Parameter | Type | Default Value | Other Values |
 | ------ | :---: | :---: | ------ | 
 | mode | `str` | `'auto'` | `'manual'` |
+| duplicates | `str` | `False` | `'auto'`, `True` |
 | missing_num | `str` | `False` | `'auto'`, `'linreg'`, `'knn'`, `'mean'`, `'median'`, `'most_frequent'`, `'delete'`, `False` |
 | missing_categ | `str` | `False` | `'auto'`, `'logreg'`, `'knn'`, `'most_frequent'`, `'delete'`, `False` |
 | encode_categ | `list` | `False` | `'auto'`, `['onehot']`, `['label']`, `False` ; to encode only specific columns add a list of column names or indexes: `['auto', ['col1', 2]]` |
@@ -103,6 +103,9 @@ For example, you can choose to only handle outliers in your data, and skip all o
 ```python
 pipeline = AutoClean(dataset, mode='manual', outliers='auto')
 ```
+### duplicates
+
+Defines whether AutoClean should handle **duplicate** values in the data. If set to `'auto'` or `True`, AutoClean will delete the rows it found which are exacte duplicates on all features. Set duplicates to `False` if you want to skip this step.
 
 ### missing_num
 
