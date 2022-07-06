@@ -106,6 +106,8 @@ pipeline = AutoClean(dataset, mode='manual', outliers='auto')
 ```
 ### duplicates
 
+**[ NEW ] with version v1.1.0**
+
 Defines whether AutoClean should handle **duplicate** values in the data. If set to `'auto'` or `True`, AutoClean will delete the rows it found which are exacte duplicates on all features. Set duplicates to `False` if you want to skip this step.
 
 ### missing_num
