@@ -96,9 +96,9 @@ AutoClean(dataset, mode='auto', duplicates=False, missing_num=False, missing_cat
 Defines in which mode AutoClean will run:
 
 * Automated processing (`mode` = `'auto'`): the data will be analyzed and cleaned automatically, by being passed through all the steps in the pipeline. All the parameters are set to = `'auto'`.
-* Manual processing (`mode` = `'manual'`): you can manually define the processing steps that AutoClean will perform. All the parameters are set to `False`, except the ones that you defone individually.
+* Manual processing (`mode` = `'manual'`): you can manually define the processing steps that AutoClean will perform. All the parameters are set to `False`, except the ones that you define individually.
 
-For example, you can choose to only handle outliers in your data, and skip all other processing steps by using::
+For example, you can choose to only handle outliers in your data, and skip all other processing steps by using:
 
 ```python
 pipeline = AutoClean(dataset, mode='manual', outliers='auto')
