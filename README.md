@@ -72,8 +72,9 @@ In some cases, the default settings of AutoClean might not optimally fit your da
 It has the following adjustable parameters, for which the options and descriptions can be found below:
 
 ````python
-AutoClean(dataset, mode='auto', duplicates=False, missing_num=False, missing_categ=False, encode_categ=False,     
-          extract_datetime=False, outliers=False, outlier_param=1.5, logfile=True, verbose=False)
+AutoClean(dataset, mode='auto', duplicates=False, missing_num=False, missing_categ=False, 
+          encode_categ=False, extract_datetime=False, outliers=False, outlier_param=1.5, 
+          logfile=True, verbose=False)
 ````
 
 | Parameter | Type | Default Value | Other Values |
