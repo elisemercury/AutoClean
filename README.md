@@ -15,7 +15,7 @@ pip install py-AutoClean
 
 View AutoClean on [PyPi](https://pypi.org/project/py-AutoClean/).
 
----
+--- 
 
 ## Description
 It is commonly known among Data Scientists that data cleaning and preprocessing make up a major part of a data science project. And, you will probably agree with me that it is not the most exciting part of the project. *Wouldn't it be great if this part could be automated?*
