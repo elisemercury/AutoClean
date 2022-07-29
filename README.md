@@ -79,7 +79,7 @@ AutoClean(dataset, mode='auto', duplicates=False, missing_num=False, missing_cat
 
 | Parameter | Type | Default Value | Other Values |
 | ------ | :---: | :---: | ------ | 
-| mode | `str` | `'auto'` | `'manual'` |
+| **mode** | `str` | `'auto'` | `'manual'` |
 | duplicates | `str` | `False` | `'auto'`, `True` |
 | missing_num | `str` | `False` | `'auto'`, `'linreg'`, `'knn'`, `'mean'`, `'median'`, `'most_frequent'`, `'delete'`, `False` |
 | missing_categ | `str` | `False` | `'auto'`, `'logreg'`, `'knn'`, `'most_frequent'`, `'delete'`, `False` |
