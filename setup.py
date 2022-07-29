@@ -3,7 +3,7 @@ import os
 
 base_dir = os.path.dirname(__file__)
 
-with open(os.path.join(base_dir, "README_pypi.md")) as f:
+with open(os.path.join(base_dir, "README.md")) as f:
     long_description = f.read()
 
 exec(open('autoclean/version.py').read())
