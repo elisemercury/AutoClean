@@ -1,3 +1,5 @@
+# AutoClean 2022
+# For detailed documentation and usage guide, please visit the official GitHub Repo.
 # https://github.com/elisemercury/AutoClean
 
 import os
@@ -88,26 +90,6 @@ class AutoClean:
         if logfile:
             print('Logfile saved to:', os.path.join(os.getcwd(), 'autoclean.log'))
 
-    def help():
-        # function that outputs some basic usage information 
-        help_msg = f"""
-        **** Welcome to AutoClean! {__version__} ****
-
-        Run AutoClean by selecting your input data (Pandas dataframe) and setting the 'mode' parameter to:
-
-        \t* 'auto' (default) or
-        \t* 'manual'
-
-        If set to 'auto', AutoClean will start the automated cleaning process. 
-        If set to 'manual', you can customize your AutoClean pipeline by defining some of the optional parameters:
-
-        \tduplicates, missing_num, missing_categ, outliers, encode_categ, extract_datetime
-
-        📋 For detailed documentation and usage guide, please visit the official GitHub Repo: https://github.com/elisemercury/AutoClean
-        """     
-        print(help_msg)
-        return
-
     def _initialize_logger(self, verbose, logfile):
         # function for initializing the logging process
         logger.remove()
@@ -124,7 +106,6 @@ class AutoClean:
         if type(df) != pd.core.frame.DataFrame:
             raise ValueError('Invalid value for "df" parameter.')
         if self.mode not in ['manual', 'auto']:
-            AutoClean.help()
             raise ValueError('Invalid value for "mode" parameter.')
         if self.duplicates not in [False, 'auto']:
             raise ValueError('Invalid value for "duplicates" parameter.')
