@@ -174,4 +174,4 @@ You can view a [sample logfile here](https://github.com/elisemercury/AutoClean/b
 
 ### verbose
 
-Defined whether the logfile output should be shown on the console while the AutoClean process runs. Set to `True` if you want to follow the process logs in real-time.
+Defines whether the logfile output should be shown on the console while the AutoClean process runs. Set to `True` if you want to follow the process logs in real-time.
