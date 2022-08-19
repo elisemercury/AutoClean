@@ -8,7 +8,6 @@ from timeit import default_timer as timer
 import pandas as pd
 from loguru import logger
 from AutoClean.modules import *
-from AutoClean.version import __version__
 
 class AutoClean:
 
