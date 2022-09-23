@@ -55,7 +55,7 @@ class MissingValues:
                     # mean, median or mode imputation
                     elif self.missing_num in ['mean', 'median', 'most_frequent']:
                         imputer = SimpleImputer(strategy=self.missing_num)
-                        df = MissingValues._impute_missing(self, df, imputer, type='num')
+                        df = MissingValues._impute(self, df, imputer, type='num')
                     # delete missing values
                     elif self.missing_num == 'delete':
                         df = MissingValues._delete(self, df, type='num')
