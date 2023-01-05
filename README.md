@@ -3,6 +3,7 @@
 ![PyPIv](https://img.shields.io/pypi/v/py-AutoClean)
 ![PyPI status](https://img.shields.io/pypi/status/py-AutoClean)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/py-AutoClean)
+[![Downloads](https://static.pepy.tech/badge/py-autoclean)](https://pepy.tech/project/py-autoclean)
 ![PyPI - License](https://img.shields.io/pypi/l/py-AutoClean)
  
 **AutoClean automates data preprocessing & cleaning for your next Data Science project in Python.**
