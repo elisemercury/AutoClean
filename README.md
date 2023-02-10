@@ -127,7 +127,7 @@ You can specify the handling method by setting `missing_categ` to: `'logreg'`, `
 
 Defines how **categorical** values should be encoded. Categorical values can be onehot- or label-encoded. 
 
-The parameter must be handed as Python `list` type. When set to `['auto']`, AutoClean:
+The parameter must be handed as Python `list` type. When set to `'auto'`, AutoClean:
 
 * onehot-encodes features that have **less than 10 unique data values**
 * label-encodes features that have **less than 20 unique data values**
@@ -171,7 +171,7 @@ You can **customize** the outlier bounds by changing the default `outlier_param`
 
 Defines whether a logfile should be generated while the AutoClean process runs. If set to `True`, it will create a `autoclean.log` file in your current working directory.
 
-You can view a [sample logfile here](https://github.com/elisemercury/AutoClean/blob/main/autoclean/autoclean.log).
+You can view a [sample logfile here](https://github.com/elisemercury/AutoClean/blob/main/AutoClean/autoclean.log).
 
 ### verbose
 
