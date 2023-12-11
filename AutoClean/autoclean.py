@@ -11,7 +11,7 @@ from AutoClean.modules import *
 
 class AutoClean:
 
-    def __init__(self, input_data, mode='auto', duplicates=False, missing_num=False, missing_categ=False, encode_categ=False, extract_datetime=False, outliers=False, outlier_param=1.5, logfile=True, verbose=False):  
+    def __init__(self, input_data, mode='auto', duplicates=False, missing_num=False, missing_categ=False, encode_categ=False, extract_datetime=False, outliers=False, outlier_skip=[],  outlier_param=1.5, logfile=True, verbose=False):  
         '''
         input_data (dataframe)..........Pandas dataframe
         mode (str)......................define in which mode you want to run AutoClean
@@ -135,12 +135,12 @@ class AutoClean:
         logger.info('Completed validation of input parameters')
         return
             
-    def _clean_data(self, df, input_data):
+    def _clean_data(self, df, input_data, skip_duplicate=[]):
         # function for starting the autoclean process
         df = df.reset_index(drop=True)
         df = Duplicates.handle(self, df)
         df = MissingValues.handle(self, df)
-        df = Outliers.handle(self, df)    
+        df = Outliers.handle(self, df, outlier_skip=[])    
         df = Adjust.convert_datetime(self, df) 
         df = EncodeCateg.handle(self, df)     
         df = Adjust.round_values(self, df, input_data)

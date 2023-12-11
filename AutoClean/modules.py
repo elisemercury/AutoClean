@@ -264,16 +264,18 @@ class MissingValues:
 
 class Outliers:
 
-    def handle(self, df):
+    def handle(self, df, outlier_skip):
         # function for handling of outliers in the data
         if self.outliers:
+            if not set(outlier_skip).issubset(df.columns):
+                raise ValueError("Some columns in outlier_skip do not exist in the DataFrame")
             logger.info('Started handling of outliers... Method: "{}"', str(self.outliers).upper())
             start = timer()  
 
             if self.outliers in ['auto', 'winz']:  
-                df = Outliers._winsorization(self, df)
+                df = Outliers._winsorization(self, df, outlier_skip)
             elif self.outliers == 'delete':
-                df = Outliers._delete(self, df)
+                df = Outliers._delete(self, df, outlier_skip)
             
             end = timer()
             logger.info('Completed handling of outliers in {} seconds', round(end-start, 6))
@@ -281,10 +283,12 @@ class Outliers:
             logger.info('Skipped handling of outliers')
         return df     
 
-    def _winsorization(self, df):
+    def _winsorization(self, df, outlier_skip):
         # function for outlier winsorization
-        cols_num = df.select_dtypes(include=np.number).columns    
-        for feature in cols_num:           
+        cols_num = [col for col in df.select_dtypes(include=np.number).columns if col not in outlier_skip]  
+        for feature in cols_num:   
+            if feature not in df.columns:
+                raise ValueError(f"Feature {feature} does not exist in the DataFrame")        
             counter = 0
             # compute outlier bounds
             lower_bound, upper_bound = Outliers._compute_bounds(self, df, feature)    
@@ -308,10 +312,12 @@ class Outliers:
                 logger.debug('Outlier imputation of {} value(s) succeeded for feature "{}"', counter, feature)        
         return df
 
-    def _delete(self, df):
+    def _delete(self, df, outlier_skip):
         # function for deleting outliers in the data
-        cols_num = df.select_dtypes(include=np.number).columns    
+        cols_num = [col for col in df.select_dtypes(include=np.number).columns if col not in outlier_skip]   
         for feature in cols_num:
+            if feature not in df.columns:
+                raise ValueError(f"Feature {feature} does not exist in the DataFrame")
             counter = 0
             lower_bound, upper_bound = Outliers._compute_bounds(self, df, feature)    
             # delete observations containing outliers            
